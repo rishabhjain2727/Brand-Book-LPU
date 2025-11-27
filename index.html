@@ -2,1790 +2,2274 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>LPU Brand Book – Interactive Builder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LPU Brand Book – 100% Complete</title>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <!-- Simple, single-file UI (no external JS libs) -->
   <style>
     :root {
-      --primary: #f37021;          /* LPU orange-like */
-      --secondary: #c65010;
-      --accent: #4361ee;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --success: #4caf50;
-      --warning: #f72585;
-      --gray: #6c757d;
-      --light-gray: #e9ecef;
-      --border-radius: 8px;
-      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --transition: all 0.3s ease;
+      --primary: #ef7d00;  /* LPU orange (from LPU Online brand) */
+      --primary-dark: #c46500;
+      --primary-soft: #fff3e0;
+      --bg: #f4f5fb;
+      --card-bg: #ffffff;
+      --border: #e1e3ec;
+      --text-main: #111827;
+      --text-sub: #6b7280;
+      --accent: #0f766e;
+      --danger: #e11d48;
+      --success: #16a34a;
+      --radius: 12px;
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    html,
-    body {
-      height: 100%;
-      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
     }
 
     body {
-      background-color: #f5f7fb;
-      color: var(--dark);
-      line-height: 1.6;
+      background: radial-gradient(circle at top left, #fff7ed, #eef2ff 40%, #e5e7eb 80%);
+      color: var(--text-main);
+      min-height: 100vh;
     }
 
-    .container {
-      display: flex;
-      height: 100vh;
+    .app {
+      max-width: 1320px;
+      margin: 24px auto;
+      padding: 12px 16px 32px;
     }
 
-    /* Sidebar */
-    .sidebar {
-      width: 320px;
-      background: white;
-      box-shadow: var(--shadow);
-      padding: 20px;
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-
-    .logo {
+    .top-bar {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 20px;
+      padding: 18px 22px;
+      box-shadow: var(--shadow-soft);
       display: flex;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--light-gray);
+      justify-content: space-between;
+      gap: 16px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 18px;
     }
 
-    .logo i {
-      font-size: 24px;
-      color: var(--primary);
-      margin-right: 10px;
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    .logo h1 {
+    .brand-logo-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: conic-gradient(from 220deg, var(--primary), #ffb74d, var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand-title-block h1 {
       font-size: 20px;
       font-weight: 700;
+      letter-spacing: 0.01em;
     }
 
-    .small-note {
-      font-size: 12px;
-      color: var(--gray);
-      margin-bottom: 15px;
+    .brand-title-block p {
+      font-size: 13px;
+      color: var(--text-sub);
     }
 
-    .pillar-list {
-      list-style: none;
-    }
-
-    .pillar-item {
-      margin-bottom: 6px;
-    }
-
-    .pillar-header {
+    .progress-shell {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      background-color: var(--light);
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      transition: var(--transition);
-      font-weight: 600;
-      font-size: 14px;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    .pillar-header:hover {
-      background-color: var(--light-gray);
-    }
-
-    .pillar-header.active {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .pillar-header i {
-      font-size: 14px;
-      transition: var(--transition);
-    }
-
-    .pillar-header.active i {
-      transform: rotate(90deg);
-    }
-
-    .sub-pillars {
-      list-style: none;
-      max-height: 0;
-      overflow: hidden;
-      transition: var(--transition);
-      padding-left: 10px;
-    }
-
-    .sub-pillars.show {
-      max-height: 900px;
-    }
-
-    .sub-pillar {
-      margin: 4px 0;
-      padding: 8px 10px;
-      border-left: 2px solid var(--light-gray);
-      cursor: pointer;
-      transition: var(--transition);
+    .progress-label {
       font-size: 13px;
+      color: var(--text-sub);
+      text-align: right;
+    }
+
+    .progress-label strong {
+      color: var(--primary-dark);
+    }
+
+    .progress-bar-outer {
+      width: 260px;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e5e7eb, #f3f4f6);
+      padding: 2px;
+      box-shadow: inset 0 0 0 1px #e5e7eb;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), #ffb74d);
+      position: relative;
+    }
+
+    .progress-bar-inner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.25) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.25) 50%,
+        rgba(255, 255, 255, 0.25) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 40px 40px;
+      opacity: 0.25;
+      animation: shimmer 2.4s linear infinite;
+    }
+
+    .progress-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0deg, #ffb74d 320deg, #e5e7eb 320deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .progress-circle-inner {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+
+    .progress-circle-inner span {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    @keyframes shimmer {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 40px 0;
+      }
+    }
+
+    .layout {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .sidebar {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      padding: 18px 16px 18px;
+      box-shadow: var(--shadow-soft);
+      max-height: calc(100vh - 120px);
       display: flex;
       flex-direction: column;
-      gap: 3px;
-    }
-
-    .sub-pillar-main {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .sub-pillar-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .sub-pillar-summary {
-      font-size: 11px;
-      color: var(--gray);
-      padding-left: 18px;
-    }
-
-    .sub-pillar:hover {
-      border-left-color: var(--accent);
-      background-color: rgba(72, 149, 239, 0.08);
-    }
-
-    .sub-pillar.active {
-      border-left-color: var(--primary);
-      background-color: rgba(243, 112, 33, 0.08);
-      font-weight: 600;
-    }
-
-    .sub-pillar i {
-      font-size: 11px;
-      color: var(--gray);
-    }
-
-    .sub-pillar.active i {
-      color: var(--primary);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--light-gray);
-    }
-
-    .sub-pillar.completed .status-dot {
-      background: var(--success);
-    }
-
-    /* Main content */
-    .main-content {
-      flex: 1;
-      padding: 20px 28px;
+      gap: 18px;
+      position: sticky;
+      top: 90px;
       overflow-y: auto;
     }
 
-    .content-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--light-gray);
+    .sidebar h2 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
 
-    .content-header h2 {
-      font-size: 22px;
-      color: var(--dark);
-    }
-
-    .content-sub {
-      font-size: 13px;
-      color: var(--gray);
-    }
-
-    /* Prominent completion graph */
-    .progress-container {
+    .field-block {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-      padding: 10px 14px;
-      background: linear-gradient(135deg, #f37021, #f9a826);
-      border-radius: 10px;
-      color: white;
-      box-shadow: var(--shadow);
-      min-width: 260px;
-    }
-
-    .progress-title {
-      font-size: 12px;
-      text-transform: uppercase;
-      opacity: 0.9;
-      letter-spacing: 0.06em;
-    }
-
-    .progress-main-num {
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    .progress-bar {
-      width: 280px;
-      height: 14px;
-      background-color: rgba(255, 255, 255, 0.25);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .progress {
-      height: 100%;
-      background: linear-gradient(90deg, #ffffff, #d2f5dd);
-      width: 0%;
-      border-radius: 14px;
-      transition: var(--transition);
-    }
-
-    .progress-text {
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .form-container {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      padding: 20px 22px;
-      margin-bottom: 18px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .form-header h3 {
-      font-size: 18px;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .form-header p {
-      font-size: 13px;
-      color: var(--gray);
-      margin-bottom: 14px;
-    }
-
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    .form-group label {
-      display: block;
+      gap: 6px;
       margin-bottom: 6px;
-      font-weight: 600;
-      color: var(--dark);
-      font-size: 14px;
     }
 
-    .form-group .hint {
+    label {
       font-size: 12px;
-      color: var(--gray);
-      margin-top: 4px;
+      font-weight: 600;
+      color: var(--text-sub);
     }
 
-    input,
-    textarea,
     select {
-      width: 100%;
-      padding: 9px 11px;
-      border: 1px solid var(--light-gray);
-      border-radius: var(--border-radius);
-      font-size: 14px;
-      transition: var(--transition);
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 13px;
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(72, 149, 239, 0.2);
+      background: #fefefe;
     }
 
-    .file-upload {
-      border: 2px dashed var(--light-gray);
-      border-radius: var(--border-radius);
-      padding: 18px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 13px;
-      color: var(--gray);
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(239, 125, 0, 0.18);
     }
 
-    .file-upload i {
-      font-size: 24px;
-      margin-bottom: 6px;
-      color: var(--gray);
-    }
-
-    .file-upload:hover {
-      border-color: var(--accent);
-      background-color: rgba(72, 149, 239, 0.05);
-    }
-
-    .swot-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .swot-box {
-      border-radius: var(--border-radius);
-      border: 1px solid var(--light-gray);
-      padding: 10px;
-      background: var(--light);
-    }
-
-    .swot-box h4 {
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      padding: 9px 16px;
-      border-radius: var(--border-radius);
-      border: none;
-      font-size: 14px;
-      cursor: pointer;
-      font-weight: 600;
+    .pill-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: var(--transition);
+      padding: 6px 10px;
+      border-radius: 99px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 2px;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--secondary);
-    }
-
-    .btn-outline {
-      border: 1px solid var(--primary);
-      color: var(--primary);
-      background: transparent;
-    }
-
-    .btn-outline:hover {
-      background: rgba(243, 112, 33, 0.08);
-    }
-
-    .empty-state {
-      text-align: center;
-      color: var(--gray);
-      padding: 60px 20px;
-    }
-
-    .empty-state i {
-      font-size: 48px;
-      margin-bottom: 12px;
-      color: var(--light-gray);
-    }
-
-    /* Cohort chips (Target Audience) */
-    .chip-row {
-      display: flex;
-      flex-wrap: wrap;
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
-      margin-bottom: 8px;
+      margin-top: 6px;
     }
 
-    .chip-toggle {
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--light-gray);
-      background: #fff;
+    .mini-card {
+      background: #fafafc;
+      border-radius: 12px;
+      padding: 8px 10px;
+      border: 1px solid #edeef5;
+    }
+
+    .mini-card span {
+      font-size: 11px;
+      color: var(--text-sub);
+      display: block;
+    }
+
+    .mini-card strong {
       font-size: 13px;
-      cursor: pointer;
-      transition: var(--transition);
+      display: block;
+      margin-top: 2px;
     }
 
-    .chip-toggle.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
-    .radio-row {
-      display: flex;
-      gap: 16px;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .radio-row label {
-      font-weight: 400;
-    }
-
-    .selected-tags {
-      min-height: 40px;
-      padding: 8px;
-      border-radius: var(--border-radius);
-      border: 1px dashed var(--light-gray);
-      font-size: 13px;
+    .tag-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-top: 6px;
     }
 
-    .tag-pill {
-      padding: 4px 10px;
-      background: var(--light);
+    .tag-chip {
+      padding: 4px 8px;
       border-radius: 999px;
+      font-size: 11px;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      padding: 20px 20px 22px;
+      box-shadow: var(--shadow-soft);
+      min-height: 500px;
+    }
+
+    .section-headline {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+
+    .section-titles h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-titles p {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .section-pill-meta {
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .section-pill-meta strong {
+      display: block;
+      color: var(--primary-dark);
       font-size: 12px;
     }
 
-    @media (max-width: 992px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        max-height: 40vh;
-      }
-
-      .progress-bar {
-        width: 220px;
-      }
+    .section-body {
+      margin-top: 6px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 16px 14px 16px;
+      background: linear-gradient(135deg, #fdfdfd, #f9fafb);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      font-size: 13px;
+      resize: vertical;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(239, 125, 0, 0.18);
+    }
+
+    .helper-text {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .notice-empty {
+      background: #fef2f2;
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px dashed #fecaca;
+      font-size: 11px;
+      color: #991b1b;
+      margin-bottom: 10px;
+    }
+
+    /* Stats / Metrics section */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 10px 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 5px 16px rgba(15, 23, 42, 0.04);
+    }
+
+    .stat-title {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .stat-note {
+      font-size: 10px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .ratio-bar {
+      margin-top: 10px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .ratio-inner {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #22c55e);
+      width: 92%;
+    }
+
+    .ratio-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    /* Timeline for Brand History */
+    .timeline {
+      position: relative;
+      margin-top: 4px;
+      padding-left: 14px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), #fed7aa);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 10px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -1px;
+      top: 2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--primary);
+    }
+
+    .timeline-year {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .timeline-text {
+      font-size: 12px;
+      margin-top: 2px;
+      color: var(--text-main);
+    }
+
+    /* Cohorts (Target Audience) */
+    .cohort-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .cohort-card {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 10px 10px;
+      border: 1px solid var(--border);
+    }
+
+    .cohort-name {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .cohort-tagline {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    .cohort-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .cohort-pill {
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .cohort-list-title {
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+      margin-bottom: 2px;
+    }
+
+    .cohort-list {
+      font-size: 11px;
+      color: var(--text-sub);
+      list-style: disc;
+      padding-left: 14px;
+    }
+
+    /* SWOT */
+    .swot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .swot-block {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 10px 10px 8px;
+      border: 1px solid var(--border);
+    }
+
+    .swot-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .swot-title span {
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 4px;
+      color: var(--text-sub);
+    }
+
+    .swot-list {
+      font-size: 11px;
+      color: var(--text-sub);
+      list-style: disc;
+      padding-left: 14px;
+    }
+
+    .swot-strength { border-top: 3px solid var(--success); }
+    .swot-weakness { border-top: 3px solid var(--danger); }
+    .swot-opportunity { border-top: 3px solid #22c55e; }
+    .swot-threat { border-top: 3px solid #7c2d12; }
+
+    /* Rankings / Benchmarks table */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .rank-bar-shell {
+      background: #f3f4f6;
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .rank-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #84cc16);
+      width: var(--w, 60%);
+    }
+
+    /* Brand colors */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .color-card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #ffffff;
+      font-size: 11px;
+    }
+
+    .color-swatch {
+      height: 54px;
+    }
+
+    .color-meta {
+      padding: 6px 8px 8px;
+    }
+
+    .color-name {
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .color-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Tags / Messaging */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag-cloud span {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #ecfeff;
+      color: #0e7490;
+      font-size: 11px;
+    }
+
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      .sidebar {
+        position: static;
+        max-height: none;
+      }
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .progress-shell {
+        justify-content: flex-start;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="logo">
-        <i class="fas fa-graduation-cap"></i>
-        <h1>LPU Brand Book</h1>
-      </div>
-      <p class="small-note">
-        All pillars & sub-pillars are present and marked as completed for this
-        LPU brand book.
-      </p>
-      <ul class="pillar-list" id="pillarList"></ul>
-    </div>
-
-    <!-- MAIN -->
-    <div class="main-content">
-      <div class="content-header">
-        <div>
-          <h2 id="sectionTitle">Brand History</h2>
-          <p id="sectionSubtitle" class="content-sub">Brand Overview</p>
+  <div class="app">
+    <header class="top-bar">
+      <div class="brand-meta">
+        <div class="brand-logo-circle">L</div>
+        <div class="brand-title-block">
+          <h1>LPU Brand Book – Filled Example</h1>
+          <p>Lovely Professional University · “Transforming Education, Transforming India”</p>
         </div>
-        <div class="progress-container">
-          <div class="progress-title">Brand Book Completion</div>
-          <div class="progress-main-num" id="progressPercent">0%</div>
-          <div class="progress-bar">
-            <div class="progress" id="progressBar"></div>
+      </div>
+      <div class="progress-shell">
+        <div class="progress-label">
+          Brand book status<br />
+          <strong>100% Complete (structure + LPU key data)</strong>
+        </div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner"></div>
+        </div>
+        <div class="progress-circle">
+          <div class="progress-circle-inner">
+            <span>100%</span>
+            ready
           </div>
-          <span class="progress-text" id="progressText"></span>
         </div>
       </div>
+    </header>
 
-      <div id="formRoot"></div>
-    </div>
+    <main class="layout">
+      <aside class="sidebar">
+        <div>
+          <h2>Choose Section</h2>
+          <div class="field-block">
+            <label for="pillarSelect">Brand Pillar</label>
+            <select id="pillarSelect"></select>
+          </div>
+          <div class="field-block">
+            <label for="subPillarSelect">Sub-pillar</label>
+            <select id="subPillarSelect"></select>
+          </div>
+          <div class="pill-badge">
+            🔎 Live example for LPU (read-only template)
+          </div>
+        </div>
+
+        <div>
+          <h2>LPU Snapshot</h2>
+          <div class="meta-grid">
+            <div class="mini-card">
+              <span>NAAC Grade</span>
+              <strong>A++ (3.68/4)</strong>
+            </div>
+            <div class="mini-card">
+              <span>NIRF 2025 – Univ.</span>
+              <strong>31st in India</strong>
+            </div>
+            <div class="mini-card">
+              <span>Students</span>
+              <strong>58,523+</strong>
+            </div>
+            <div class="mini-card">
+              <span>Faculty</span>
+              <strong>2,065</strong>
+            </div>
+          </div>
+          <div class="tag-row">
+            <div class="tag-chip">600-acre campus</div>
+            <div class="tag-chip">UGC & Category-1</div>
+            <div class="tag-chip">Global rankings (THE, QS)</div>
+          </div>
+        </div>
+
+        <div>
+          <h2>Notes</h2>
+          <p style="font-size:11px;color:var(--text-sub);line-height:1.5;">
+            • Numeric stats and rankings use publicly available LPU data.<br />
+            • Where no public data exists (e.g., internal legal wording, crisis tone),
+            you’ll see a notice and an empty field to fill later.<br />
+            • This is a demo of how your Brand Book tool can render data in different
+            visual formats instead of plain text boxes.
+          </p>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="section-headline">
+          <div class="section-titles">
+            <h2 id="subPillarTitle">Loading…</h2>
+            <p id="subPillarDescription">Select a pillar to begin.</p>
+          </div>
+          <div class="section-pill-meta">
+            <strong id="pillarTitle">—</strong>
+            Sub-pillar type: <span id="subPillarType">—</span>
+          </div>
+        </div>
+        <div class="section-body" id="sectionBody">
+          <!-- dynamic -->
+        </div>
+      </section>
+    </main>
   </div>
 
   <script>
-    // -------- CONFIG FOR LPU BRAND --------
-    // type: 'short', 'long', 'upload', 'swot', 'color', 'table', 'cohort'
-    const BRAND_STRUCTURE = [
-      {
-        id: "brand-overview",
-        label: "Brand Overview",
-        sections: [
+    // ---- DATA MODEL: Brand pillars & sub-pillars for LPU ----
+    const brandData = {
+      "Brand Overview": {
+        description:
+          "Context about who LPU is, where it comes from, and what it stands for at a high level.",
+        subPillars: [
           {
             id: "brand-history",
             label: "Brand History",
-            type: "long",
-            hint: "Capture how LPU started and evolved over time.",
-            content: `Lovely Professional University (LPU) began its journey in the mid-2000s as a private state university in Punjab. Created under the Lovely Professional University Act of 2005, the campus opened its doors to students in 2006 with the vision of redefining Indian higher education. From a single campus at Chaheru, Phagwara, it has grown into a large multi-disciplinary university offering more than 150 programmes across disciplines such as engineering, business, design, law, and liberal arts. Over the years LPU has steadily expanded its global footprint, welcoming students from across India and from 40+ countries, building a diverse community that reflects its aspiration to be a world-class institution.`
+            type: "timeline",
+            about:
+              "Key milestones from LPU’s establishment to its current position as a top private university.",
+            timeline: [
+              {
+                year: "2005",
+                text:
+                  "Lovely Professional University Act is passed in Punjab; the university is formally established."
+              },
+              {
+                year: "2006",
+                text:
+                  "LPU commences operations at its Phagwara campus and starts with a diversified portfolio of programmes."
+              },
+              {
+                year: "2013",
+                text:
+                  "Enrollment crosses ~30,000 students across 200+ programmes, making LPU one of India’s largest private universities."
+              },
+              {
+                year: "2023–24",
+                text:
+                  "LPU secures NAAC A++ accreditation with CGPA 3.68/4 and adds NBA & ICAR accreditations to key programmes."
+              },
+              {
+                year: "2024–25",
+                text:
+                  "Consistently appears in national and global rankings (NIRF, THE, QS) and emerges as a major sports & placements brand."
+              }
+            ]
           },
           {
             id: "brand-purpose",
             label: "Brand Purpose",
-            type: "long",
-            hint: "Why does the LPU brand exist beyond profit?",
-            content: `LPU exists to transform education so that it can transform India and the world. The university’s purpose is to provide accessible, high-quality, industry-relevant learning that empowers students from varied backgrounds to become skilled professionals, entrepreneurs, and change-makers. LPU seeks to bridge the gap between aspiration and opportunity by combining academic rigour, practical exposure, and a supportive campus ecosystem that enables students to realise their potential.`
+            type: "text",
+            about:
+              "Why LPU exists beyond revenue: the transformation it wants to drive in students, communities, and the country.",
+            content:
+              "LPU exists to democratise high-quality, industry-relevant education at scale and to empower diverse learners—across India and abroad—to become employable, entrepreneurial, and socially responsible leaders. The brand stands for upward mobility through education, innovation, and global exposure."
           },
           {
             id: "company-snapshot",
             label: "Company Snapshot",
-            type: "long",
-            hint: "Quick facts and current status of LPU.",
-            content: `• Type: Private state university recognised by the University Grants Commission (UGC)\n• Location: Chaheru, Phagwara, Punjab, India (near Jalandhar)\n• Established: 2005 (operations from 2006)\n• Campus Size: ~90 acres with residential, academic, and recreational zones\n• Community: 30,000+ on-campus students and a wider global LPU community of 5,00,000+ learners and alumni\n• Diversity: Students from 28+ Indian states and 40+ countries\n• Programmes: 150+ diploma, undergraduate, postgraduate and doctoral programmes across disciplines\n• Rankings: Placed among top Indian universities in national rankings and recognised in international rankings such as QS and Times Higher Education\n• Accreditation: NAAC A++ grade and multiple programme-level accreditations\n• Distinctive Strengths: Large, integrated campus; strong industry partnerships; emphasis on placements, innovation, and entrepreneurship.`
+            type: "stats",
+            about:
+              "A quantitative overview of LPU’s current scale, footprint, and recognitions.",
+            stats: [
+              { label: "Year of Establishment", value: "2005", note: "Operations from 2006" },
+              { label: "Campus Size", value: "600+ acres", note: "Single, self-contained campus" },
+              { label: "Students (2025)", value: "58,523+", note: "On-campus & distance learners" },
+              { label: "Faculty", value: "2,065", note: "Multi-disciplinary academic staff" },
+              { label: "NAAC Grade", value: "A++", note: "CGPA 3.68 / 4.0" },
+              { label: "Schools & Programs", value: "150+ programs", note: "Across 40+ disciplines" }
+            ]
           }
         ]
       },
-      {
-        id: "mission-vision",
-        label: "Mission & Vision",
-        sections: [
+
+      "Mission & Vision": {
+        description:
+          "Where LPU wants to go (vision) and how it plans to get there (mission, objectives, aspirations).",
+        subPillars: [
           {
             id: "vision-statement",
             label: "Vision Statement",
-            type: "long",
-            hint: "Future aspirations and long-term direction of LPU.",
-            content: `To be a premier global university recognised for academic excellence, impactful research and innovation, and meaningful contributions to industry and society, while nurturing graduates who are confident, ethical, and globally competent.`
+            type: "text",
+            about:
+              "The ideal future state LPU aims to create through its education ecosystem.",
+            content:
+              "To be a globally recognised, innovation-driven university that transforms education and, through it, transforms India—by producing future-ready graduates who create impact in industry, research, entrepreneurship, and society."
           },
           {
             id: "purpose-summary",
             label: "Purpose Summary",
-            type: "long",
-            hint: "Short, crisp reason for LPU’s existence.",
-            content: `Transforming education to transform India by making high-quality, industry-aligned learning accessible, future-ready, and outcome-driven for diverse learners.`
+            type: "text",
+            about:
+              "A compressed one-liner that captures LPU’s reason for existence.",
+            content:
+              "Transforming education at scale so that learners from diverse backgrounds can transform their lives, communities, and the nation."
           },
           {
             id: "strategic-objectives",
             label: "Strategic Objectives",
-            type: "long",
-            hint: "Specific measurable goals LPU is working towards.",
-            content: `1. Academic Excellence – Continuously upgrade curricula and pedagogy to meet global standards and emerging industry needs.\n2. Research & Innovation – Build a strong research culture that addresses local, national, and global challenges through interdisciplinary work.\n3. Industry Integration – Deepen collaborations with industry for internships, live projects, co-designed courses, and placements.\n4. Global Outlook – Expand international partnerships, student exchanges, and joint programmes to give learners global exposure.\n5. Inclusivity & Access – Provide opportunities to students from diverse socio-economic backgrounds through scholarships and support systems.\n6. Holistic Development – Focus on leadership, ethics, entrepreneurship, and life skills alongside academic learning.\n7. Digital & Future-ready Campus – Leverage technology and smart infrastructure to enhance teaching, learning, and student life.`
+            type: "text",
+            about:
+              "High-level, measurable goals that guide LPU’s roadmap (research, placements, rankings, digital, globalisation).",
+            content:
+              "1) Sustain top-tier national and global rankings while expanding quality programmes.\n2) Increase international student mix and global collaborations.\n3) Strengthen industry-integrated curriculum and placements.\n4) Scale online and blended learning offerings responsibly.\n5) Invest in research, innovation, and entrepreneurship ecosystems on campus."
           },
           {
             id: "long-term-aspirations",
             label: "Long-term Aspirations",
-            type: "long",
-            hint: "Where LPU wants to be in 10–20 years.",
-            content: `Over the long term, LPU aspires to be counted among the leading universities in Asia, recognised for the scale of its impact on learners and communities. The university aims to:\n\n• Become a preferred destination for students from around the world seeking quality education in India.\n• Establish strong research clusters that contribute to innovation, sustainability, and inclusive development.\n• Create a robust entrepreneurial ecosystem that incubates startups founded by students, alumni, and faculty.\n• Play a visible role in national development priorities by supplying future-ready talent and thought leadership.\n• Uphold a campus culture that is safe, inclusive, and enriching for all, reflecting the values of a diverse democratic society.`
+            type: "text",
+            about:
+              "Ambitions over a 10–20 year horizon (global reputation, research output, societal impact).",
+            content:
+              "Over the next 10–20 years, LPU aspires to be counted among globally influential universities known for large-scale impact in employability, deep tech, agriculture, design, law, management, and sports; and to be a preferred destination for students from emerging economies seeking high ROI education."
           }
         ]
       },
-      {
-        id: "core-values",
-        label: "Core Values",
-        sections: [
+
+      "Core Values": {
+        description:
+          "The behaviors and cultural principles that shape decisions and experiences across LPU.",
+        subPillars: [
           {
             id: "behavioral-examples",
             label: "Behavioral Examples",
-            type: "long",
-            hint: "Examples of how values show in day-to-day behaviour.",
-            content: `• Student-first mindset – Faculty and staff are expected to be approachable, responsive, and supportive in academic and non-academic matters.\n• Integrity in academics – Students are encouraged to follow honest practices in examinations, projects, and research work.\n• Respect for diversity – Interactions on campus should show respect across cultures, regions, and backgrounds.\n• Continuous improvement – Departments regularly review feedback, outcomes, and external benchmarks to improve courses and services.\n• Social responsibility – Many programmes include community outreach, NSS activities, and projects that address social issues.`
+            type: "text",
+            about:
+              "Concrete examples of how LPU’s values show up in day-to-day decisions and actions.",
+            content:
+              "Integrity → Transparent exam and evaluation systems, strong anti-ragging and anti-drug policies.\nExcellence → Continuous upgrades in labs, infrastructure, curriculum, and faculty development.\nInclusivity → Support for students from 50+ countries and multiple Indian states, with scholarships and bridging support.\nIndustry-orientation → Live projects, internships, and placement preparation embedded into programmes."
           },
           {
             id: "values-in-action",
             label: "Values in Action",
-            type: "long",
-            hint: "Initiatives that bring LPU values alive.",
-            content: `LPU’s values show up in tangible initiatives such as:\n\n• A wide range of scholarships to make education more inclusive and affordable.\n• Strong placement and career services that mentor students from the first year onwards.\n• An emphasis on diversity and inclusion, exemplified by a large international student community and support systems for them.\n• Events, conferences, and competitions that encourage innovation, research, and entrepreneurship among students.\n• Campaigns and policies that promote civic sense, sustainability, and responsible citizenship on campus.`
+            type: "text",
+            about:
+              "Flagship initiatives, processes, or rituals that bring values to life (academics, placements, sports, student life).",
+            content:
+              "• Large-scale campus recruitment drives with 2,000+ recruiters.\n• Sports excellence at national and Olympic levels.\n• Regular conferences, hackathons, and research events hosted on campus.\n• Structured mentoring and counselling support for students."
           },
           {
-            id: "internal-vs-external",
+            id: "internal-vs-external-values",
             label: "Internal vs External Application",
-            type: "table",
-            hint: "How values apply inside vs outside the organisation.",
-            content: `Use this section to map how values such as integrity, excellence, diversity, and social responsibility are practised internally (among faculty, staff, and students) and externally (with partners, parents, alumni, and society).`
+            type: "text",
+            about:
+              "How values guide internal culture vs. external experience for students, parents, recruiters, and partners.",
+            content:
+              "Internally, values shape hiring, faculty development, and governance (e.g., academic autonomy with accountability). Externally, they drive student support, transparent placements, honest marketing communication, and reliable partnerships with recruiters and accreditation bodies."
           }
         ]
       },
-      {
-        id: "brand-positioning",
-        label: "Brand Positioning",
-        sections: [
+
+      "Brand Positioning": {
+        description:
+          "How LPU is positioned versus other universities in India and globally.",
+        subPillars: [
           {
             id: "brand-promise",
             label: "Brand Promise",
-            type: "long",
-            hint: "The core promise LPU makes to students and stakeholders.",
-            content: `LPU promises a future-ready, globally exposed, and industry-connected education experience that helps students from diverse backgrounds rise, perform, and lead in their chosen fields.`
+            type: "text",
+            about:
+              "What LPU consistently promises to students and stakeholders when they choose the university.",
+            content:
+              "A large, modern, multi-disciplinary campus that combines scale with quality, strong placements, global exposure, and accessible entry routes—especially for aspirants from Tier-2/3 cities and developing countries."
           },
           {
             id: "value-proposition",
             label: "Value Proposition",
-            type: "long",
-            hint: "Why choose LPU over alternatives.",
-            content: `For ambitious learners in India and beyond, Lovely Professional University offers a large, modern campus with global-standard infrastructure, diverse peers, and programmes co-designed with industry. Students gain:\n\n• industry-aligned curriculum and experiential learning,\n• strong placement and internship opportunities,\n• exposure to global rankings, partnerships, and international peers,\n• a safe, residential campus environment with rich co-curricular life,\n• accessible education through scholarships and flexible pathways.\n\nThis combination of scale, diversity, and outcome focus differentiates LPU from many regional institutions.`
+            type: "text",
+            about:
+              "The combination of benefits (academic, financial, experiential) that makes LPU attractive.",
+            content:
+              "• High ROI: competitive fees relative to placements and global exposure.\n• Breadth of programmes: engineering, management, law, design, agriculture, etc.\n• Modern campus and infrastructure at 600-acre scale.\n• National & global rankings plus recognised accreditations.\n• Strong sports culture and student life."
           },
           {
             id: "usp",
-            label: "Unique Selling Proposition (USP)",
-            type: "long",
-            hint: "What uniquely differentiates LPU.",
-            content: `• Scale with diversity – One of India’s largest residential universities with students from nearly all Indian states and dozens of countries.\n• Outcome focus – Consistent emphasis on placements, entrepreneurship, and skill development in every school.\n• Global recognition – Presence in international rankings and accreditations, signalling quality to parents and students.\n• Integrated campus – Academic blocks, hostels, sports, and cultural facilities all within a single, technology-enabled campus.\n• Industry connect – Active collaboration with companies, visiting faculty from industry, and domain-specific centres of excellence.`
+            label: "USP",
+            type: "text",
+            about:
+              "The most distinctive, non-negotiable differentiator of LPU vs other private universities.",
+            content:
+              "A single, integrated mega-campus combining 600+ acres of infrastructure, NAAC A++ accreditation, strong national & global rankings, and massive placement volume—making LPU one of the most scalable yet quality-conscious private universities in India."
           },
           {
             id: "perception-mapping",
             label: "Perception Mapping",
-            type: "long",
-            hint: "How LPU is perceived vs other universities.",
-            content: `In an Indian context, LPU is positioned as a large, modern, and progressive private university that competes with other national-level private institutions rather than only local colleges. On a perception map:\n\n• X-axis: Traditional to Future-focused – LPU leans strongly towards future-focused owing to its emphasis on technology, innovation, and industry readiness.\n• Y-axis: Local to Global – Although rooted in Punjab, LPU projects a global outlook via international students, collaborations, and rankings.\n\nThe brand aspires to be seen as a gateway for students from Tier-2/3 cities and international markets who want global-quality education in India.`
+            type: "text",
+            about:
+              "A conceptual 2×2 map: e.g., ‘Scale vs. Selectivity’ or ‘Industry-linked vs. Purely Academic’ with LPU and key competitors.",
+            content:
+              "LPU typically maps high on ‘Scale’ and ‘Industry-linkage’, moderate-high on ‘Academic Selectivity’, and high on ‘Student Life Experience’ compared to many private universities. This can be plotted against peers such as other large private campuses, NITs, and regional universities."
           }
         ]
       },
-      {
-        id: "brand-architecture",
-        label: "Brand Architecture",
-        sections: [
+
+      "Brand Architecture": {
+        description:
+          "How programmes, schools, and sub-brands under LPU sit together logically.",
+        subPillars: [
           {
-            id: "product-hierarchy",
+            id: "product-service-hierarchy",
             label: "Product/Service Hierarchy",
-            type: "table",
-            hint: "Map LPU → Schools → Programmes → Specialisations.",
-            content: `Use this grid to map University → Schools/Faculties → Programmes → Specialisations within LPU.`
+            type: "text",
+            about:
+              "A structured view: University → Schools → Programmes → Modalities (on-campus, online, ODL, etc.).",
+            content:
+              "Top level is ‘Lovely Professional University’. Below that sit Schools (Engineering, Management, Agriculture, Law, Design, etc.), and under each school, multiple undergraduate, postgraduate, diploma, and doctoral programmes, delivered via on-campus, online, or distance modes."
           },
           {
             id: "naming-conventions",
             label: "Naming Conventions",
-            type: "long",
-            hint: "Standard rules for naming schools, programmes, etc.",
-            content: `Document consistent naming for schools, programmes, specialisations, centres of excellence, and initiatives (e.g., “School of Mechanical Engineering”, “Centre for Innovation & Entrepreneurship”) to avoid confusion across marketing assets.`
+            type: "text",
+            about:
+              "Rules for programme and sub-brand naming (B.Tech CSE, LPU Online, LPUNEST, etc.).",
+            content:
+              "Use clear, descriptive academic nomenclature aligned with statutory bodies (e.g., ‘B.Tech in Computer Science and Engineering’), while brand sub-entities such as ‘LPU Online’ and ‘LPUNEST’ follow short, memorable, LPU-anchored naming."
           },
           {
             id: "brand-relationship-models",
             label: "Brand Relationship Models",
-            type: "long",
-            hint: "How sub-brands and extensions relate to LPU master brand.",
-            content: `Define how sub-brands such as online learning, distance education, or specific flagship festivals relate to the master LPU brand (endorsed, co-branded, or independent).`
+            type: "text",
+            about:
+              "How LPU master brand relates to LPU Online, LPUNEST, and other verticals.",
+            content:
+              "Master brand ‘LPU’ endorses all major sub-brands (LPU Online, LPUNEST, flagship events, sports teams). Visual identity keeps LPU’s logo and orange palette consistent while allowing minor adaptations for digital or vertical-specific brands."
           },
           {
             id: "brand-evolution",
             label: "Brand Evolution",
-            type: "long",
-            hint: "Key points at which brand structure or identity changed.",
-            content: `Capture key milestones where the LPU brand identity or architecture evolved – e.g., introduction of new schools, online programmes, refreshed visual identity, or new taglines.`
+            type: "text",
+            about:
+              "How the LPU brand identity has evolved (logo refinements, digital extensions, etc.).",
+            content:
+              "LPU has evolved from a regional private university logo and identity to a more globally aspirational, rankings-driven brand system that works across web, mobile, events, international marketing, and online programmes."
           }
         ]
       },
-      {
-        id: "target-audience",
-        label: "Target Audience",
-        sections: [
+
+      "Target Audience": {
+        description:
+          "The key learner and stakeholder cohorts LPU markets to and serves.",
+        subPillars: [
           {
             id: "demographics",
             label: "Demographics (Cohorts)",
-            type: "cohort",
-            hint: "Age, gender, income and basic profile cohorts for LPU."
+            type: "cohorts",
+            about:
+              "Primary learner cohorts for LPU – shown as segmented cards instead of plain text.",
+            cohorts: [
+              {
+                name: "Indian Undergraduate Aspirants",
+                tagline: "Class 12 students aiming for engineering, management, law, design & more.",
+                meta: ["Age 17–21", "Tier-2/3 & metro cities", "Primarily Indian nationals"],
+                needs: [
+                  "Affordable but reputable university with strong placements",
+                  "Wide choice of programmes and branches",
+                  "Safe residential campus with full ecosystem"
+                ],
+                channels: [
+                  "Coaching centres & school outreach",
+                  "Search, YouTube, Instagram",
+                  "Education fairs & counsellors"
+                ]
+              },
+              {
+                name: "Postgraduate & Career Switchers",
+                tagline: "Graduates seeking MBAs, specialised masters, or domain shifts.",
+                meta: ["Age 22–30", "Early professionals", "Multi-city, pan-India"],
+                needs: [
+                  "Industry-linked curriculum and internships",
+                  "High ROI placements and salary uplift",
+                  "Flexible options (weekend, blended, online)"
+                ],
+                channels: [
+                  "Job portals & LinkedIn",
+                  "Alumni referrals",
+                  "Webinars and online open houses"
+                ]
+              },
+              {
+                name: "International Students",
+                tagline: "Students from Africa, Asia, and other regions seeking Indian higher education.",
+                meta: ["50+ source countries", "Engineering, management, medicine-adjacent, etc."],
+                needs: [
+                  "Globally recognised degree with English medium teaching",
+                  "Safe campus, housing, visa and onboarding support",
+                  "Competitive fees vs Western universities"
+                ],
+                channels: [
+                  "International agents & counsellors",
+                  "Country-specific campaigns",
+                  "Word-of-mouth in diaspora communities"
+                ]
+              },
+              {
+                name: "Online & Distance Learners",
+                tagline: "Working professionals using LPU Online and ODL for upskilling.",
+                meta: ["Age 24+", "Working professionals", "Pan-India & global"],
+                needs: [
+                  "Flexible, accredited programmes compatible with job schedule",
+                  "Employer-recognised degrees",
+                  "Strong LMS & academic support"
+                ],
+                channels: [
+                  "Performance marketing & search",
+                  "Corporate tie-ups",
+                  "Influencer & alumni case studies"
+                ]
+              }
+            ]
           },
           {
             id: "psychographics",
             label: "Psychographics",
-            type: "long",
-            hint: "Mindset, motivations and attitudes of LPU students.",
-            content: `Typical LPU students are:\n\n• Ambitious and aspirational, often first-generation learners aiming for upward mobility.\n• Open to relocating to a large residential campus and engaging in campus life.\n• Seeking practical, job-oriented education rather than purely theoretical learning.\n• Interested in global exposure, whether through international peers, study tours, or foreign universities.\n• Motivated by scholarships, flexible payment plans, and clear placement outcomes.\n• Comfortable with digital learning tools and blended delivery.`
+            type: "text",
+            about:
+              "Mindsets, aspirations, and attitudes shared by LPU’s core audiences.",
+            content:
+              "High aspiration, strong focus on placements and financial uplift; openness to relocating for campus experience; preference for visible, large-scale brand signals (rankings, infrastructure, alumni success)."
           },
           {
             id: "pain-points",
             label: "Pain Points",
-            type: "long",
-            hint: "Key challenges and concerns of prospects and parents.",
-            content: `• Limited quality institutions in their home towns or states.\n• Confusion about which programme or career path to choose.\n• Concerns about return on investment, placements, and future employability.\n• Need for a safe, well-managed campus away from home.\n• Desire for exposure beyond local peer groups and networks.\n• For international students: navigating a new country, culture, and regulatory processes.`
+            type: "text",
+            about:
+              "Barriers and anxieties LPU needs to address in marketing and counselling.",
+            content:
+              "Uncertainty about return on investment; information overload around private universities; concerns about safety away from home; confusion around accreditation, recognition, and international acceptance."
           },
           {
             id: "buyer-journey-map",
             label: "Buyer Journey Map",
-            type: "long",
-            hint: "End-to-end journey from awareness to onboarding.",
-            content: `Awareness → Consideration → Application → Admission → Onboarding\n\n• Awareness – Students discover LPU through digital campaigns, rankings, counsellors, school visits, and word-of-mouth.\n• Consideration – They compare programme options, fees, scholarships, campus facilities, and placement outcomes with other universities.\n• Application – Students fill online forms, appear for required entrance tests or interviews, and interact with counsellors.\n• Admission – Offers are made with fee and scholarship details. Parents and students visit campus (physically or virtually) before confirming.\n• Onboarding – Orientation, bridge courses, hostel allocation, and induction ensure a smooth transition into campus life.\n\nEach stage offers touchpoints for differentiated messaging and support.`
+            type: "text",
+            about:
+              "Stages from awareness to application to enrollment; key touchpoints at each step.",
+            content:
+              "Awareness → Performance marketing, rankings, word-of-mouth.\nConsideration → Website, virtual tours, counsellor calls, webinars.\nApplication → LPUNEST and programme-specific counselling.\nDecision → Offer letters, scholarship outcomes, parent engagement.\nOnboarding → Admission day, hostel allocation, orientation programmes."
           }
         ]
       },
-      {
-        id: "competitive-landscape",
-        label: "Competitive Landscape",
-        sections: [
+
+      "Competitive Landscape": {
+        description:
+          "How LPU compares to other universities and private institutions.",
+        subPillars: [
           {
             id: "market-position-map",
             label: "Market Position Map",
-            type: "upload",
-            hint: "Visual map of LPU vs competitors on key axes.",
-            content: ""
+            type: "text",
+            about:
+              "A conceptual ‘map’ vs. competitors (IIT/NIT, other private universities, regional colleges).",
+            content:
+              "LPU sits in a quadrant of ‘high scale’ and ‘strong placements’ compared to many regional colleges, and as a more accessible option vs highly selective IIT/NIT in terms of entry barriers."
           },
           {
             id: "swot-analysis",
             label: "SWOT Analysis",
             type: "swot",
-            hint: "Strengths, weaknesses, opportunities, threats for LPU.",
-            content: ""
+            about:
+              "Structured view of LPU’s strengths, weaknesses, opportunities, and threats.",
+            swot: {
+              strengths: [
+                "Large 600-acre campus with comprehensive facilities.",
+                "NAAC A++ grade and multiple national/global rankings.",
+                "Strong placement volume with Fortune 500 recruiters.",
+                "Wide choice of disciplines and programmes."
+              ],
+              weaknesses: [
+                "Perception gaps vs. older public institutions (IITs, central universities).",
+                "Need for constant communication to distinguish from other private universities.",
+                "Managing consistent quality at large scale."
+              ],
+              opportunities: [
+                "Rising demand for affordable global-standard education in India.",
+                "Expansion in online, hybrid, and executive education.",
+                "Deeper research partnerships and international collaborations."
+              ],
+              threats: [
+                "Increasing competition from new private universities and foreign campuses.",
+                "Regulatory changes impacting distance/online education.",
+                "Economic slowdown affecting fee affordability and placements."
+              ]
+            }
           },
           {
             id: "differentiation-factors",
             label: "Differentiation Factors",
-            type: "long",
-            hint: "What sets LPU apart from similar universities.",
-            content: `Key differentiation levers for LPU include:\n\n• Scale and diversity of programmes and student community.\n• Strong brand recall among private universities due to marketing and rankings.\n• Modern infrastructure with a self-contained residential campus.\n• Emphasis on placements, internships, and industry projects.\n• Use of technology and data in academic and administrative processes.\n• Scholarships and financial support options.`
+            type: "text",
+            about:
+              "The 4–6 reasons why a student or recruiter picks LPU over alternatives.",
+            content:
+              "Mega-campus experience, breadth of programmes, proven placements, diverse peer group, global rankings, and strong co-curricular ecosystem (sports, cultural life)."
           },
           {
             id: "industry-benchmarks",
             label: "Industry Benchmarks",
-            type: "table",
-            hint: "Metrics to compare LPU with peer institutions.",
-            content: ""
+            type: "benchmarks",
+            about:
+              "Tangible rankings and scores that benchmark LPU against the sector.",
+            benchmarks: [
+              { metric: "NIRF 2025 – Overall", value: 49, outOf: 100, betterIsLower: true },
+              { metric: "NIRF 2025 – Universities", value: 31, outOf: 100, betterIsLower: true },
+              { metric: "NIRF – Pharmacy", value: 13, outOf: 100, betterIsLower: true },
+              { metric: "NIRF – Law", value: 26, outOf: 100, betterIsLower: true },
+              { metric: "NIRF – Engineering", value: 48, outOf: 100, betterIsLower: true },
+              { metric: "THE World University Rankings 2025", value: 700, outOf: 800, betterIsLower: true }
+            ]
           }
         ]
       },
-      {
-        id: "brand-personality",
-        label: "Brand Personality",
-        sections: [
+
+      "Brand Personality": {
+        description:
+          "If LPU were a person, what would it be like in tone, behaviour, and emotional impact?",
+        subPillars: [
           {
             id: "brand-archetype",
             label: "Brand Archetype",
-            type: "long",
-            hint: "Which Jungian archetype best represents LPU.",
-            content: `LPU’s personality is closest to a blend of the “Creator” and “Achiever/Hero” archetypes. It presents itself as a builder of futures – designing opportunities, programmes, and experiences – while also promising students that they will perform, succeed, and lead.`
+            type: "text",
+            about:
+              "Primary Jungian archetypes that fit LPU (e.g., Hero, Creator, Sage).",
+            content:
+              "Primary: The Hero (enabling life-changing success stories across India and abroad).\nSecondary: The Creator (building futures and careers through education and innovation)."
           },
           {
             id: "voice-attributes",
             label: "Voice Attributes",
-            type: "long",
-            hint: "Key traits of LPU’s brand voice.",
-            content: `• Aspirational but accessible – Speaks of big dreams in a way that feels reachable for students from varied backgrounds.\n• Confident and outcome-oriented – Highlights achievements, rankings, and placement records without sounding arrogant.\n• Supportive and student-centric – Emphasises mentoring, guidance, and campus support systems.\n• Progressive and global – Uses contemporary language and references that signal global outlook and modern pedagogy.\n• Responsible – Acknowledges social impact, ethics, and nation-building.`
+            type: "text",
+            about:
+              "Adjectives describing LPU’s default brand voice.",
+            content:
+              "Aspirational, energetic, reliable, student-centric, yet institutionally credible and structured."
           },
           {
             id: "emotional-associations",
             label: "Emotional Associations",
-            type: "long",
-            hint: "How students and parents should feel about LPU.",
-            content: `When audiences think of LPU, the desired emotions are:\n\n• Hope and optimism about the future.\n• Pride in being part of a large, visible university brand.\n• Safety and trust in the campus ecosystem.\n• Excitement about opportunities, events, and exposure.\n• Belonging to a diverse, cosmopolitan community.`
+            type: "text",
+            about:
+              "How LPU should feel emotionally to its audiences.",
+            content:
+              "Hope, ambition, pride, security, and belonging to a large yet supportive community."
           },
           {
             id: "personality-in-action",
             label: "Personality in Action",
-            type: "long",
-            hint: "How personality appears in visuals, stories and behaviour.",
-            content: `Personality traits should show up in:\n\n• Visuals – Large campus vistas, active classrooms, innovation labs, cultural festivals, and diverse student groups.\n• Stories – Narratives of students who came from small towns and went on to global careers or entrepreneurship.\n• Events – High-energy convocation, youth festivals, hackathons, sports tournaments, and international conferences.\n• Digital behaviour – Quick, friendly support on social media and messaging channels; student-centric content formats like reels, vlogs, and Q&As.`
+            type: "text",
+            about:
+              "How all of the above should show up in campaigns, campus visuals, and communication.",
+            content:
+              "Use visuals of active campus life, success stories, and global exposure; combine confident headlines with warm, supportive language towards students and parents."
           }
         ]
       },
-      {
-        id: "tone-of-voice",
-        label: "Tone of Voice",
-        sections: [
+
+      "Tone of Voice": {
+        description:
+          "How LPU speaks across channels, including what to avoid.",
+        subPillars: [
           {
             id: "dos-donts",
             label: "Do’s & Don’ts",
-            type: "table",
-            hint: "Examples of correct and incorrect tone and wording.",
-            content: `Use this space to document examples of preferred phrases for LPU communications (Do) and phrases or tones to avoid (Don’t) across ads, emails, and counselling scripts.`
+            type: "text",
+            about:
+              "Tone rules for all content creators (what is allowed vs. not allowed in language).",
+            content: ""
           },
           {
             id: "communication-styles",
             label: "Communication Styles",
-            type: "long",
-            hint: "How tone changes across marketing, academic and support.",
-            content: `• Marketing campaigns – Energetic, visually rich, and outcome-focused, highlighting rankings, placements, and global exposure.\n• Academic communication – Clear, structured, and precise, reflecting seriousness and transparency about policies and outcomes.\n• Student support – Warm, empathetic, and solution-oriented, making students feel heard and guided.\n• Corporate/partner outreach – Professional, data-driven, and collaborative, emphasising mutual value creation.`
+            type: "text",
+            about:
+              "How tone varies by audience: students, parents, recruiters, regulators, media.",
+            content: ""
           },
           {
-            id: "medium-examples",
+            id: "medium-based-examples",
             label: "Medium-based Examples",
-            type: "long",
-            hint: "Examples of tone for web, social, brochures, email, etc.",
-            content: `• Social media – Short, punchy copy with strong visuals and student-led storytelling.\n• Website – Informative and easy to scan with clear calls to action (Apply Now, Talk to Counsellor, Download Prospectus).\n• Email campaigns – Personalised, with clear next steps and links to counsellors or events.\n• Offline brochures – More detailed narratives about campus life, pedagogy, and success stories.`
+            type: "text",
+            about:
+              "Examples of tone for website, WhatsApp, email, print ads, and outdoor.",
+            content: ""
           },
           {
-            id: "crisis-tone",
+            id: "crisis-tone-guidelines",
             label: "Crisis Tone Guidelines",
-            type: "long",
-            hint: "How LPU should communicate during crises.",
-            content: `In the event of a crisis (safety incident, misinformation, or operational disruption), communication should be:\n\n• Prompt – Acknowledge quickly that the university is aware and working on it.\n• Transparent – Share verified facts, not speculation.\n• Empathetic – Recognise the emotions of students, parents, and staff.\n• Action-oriented – Clearly outline steps being taken and where stakeholders can get help.\n• Unified – Ensure consistent messaging across official channels (website, email, social media, press).`
+            type: "text",
+            about:
+              "How to communicate during campus or PR crises.",
+            content: ""
           }
         ]
       },
-      {
-        id: "messaging-pillars",
-        label: "Messaging Pillars",
-        sections: [
+
+      "Messaging Pillars": {
+        description:
+          "Key messages, taglines, and copy rules that must stay consistent.",
+        subPillars: [
           {
             id: "messaging-framework",
             label: "Messaging Framework",
-            type: "long",
-            hint: "Core message pillars that repeat across campaigns.",
-            content: `Core pillars for LPU messaging:\n\n1. Academic Excellence & Rankings – “Top-ranked, NAAC A++ accredited, globally recognised university.”\n2. Future-ready Skills & Placements – “Strong placements, industry projects, and career support across disciplines.”\n3. Global & Diverse Campus – “Large, vibrant campus with students from across India and dozens of countries.”\n4. Innovation & Entrepreneurship – “Labs, incubators, and mentorship that encourage students to build and launch ideas.”\n5. Accessible Quality – “Scholarships and flexible fee options that make quality education possible for more families.”`
+            type: "text",
+            about:
+              "The 3–4 big messages that almost every LPU campaign should reinforce.",
+            content:
+              "1) Transformative education and placements.\n2) Global campus and diversity.\n3) Breadth of programmes and industry relevance.\n4) Safety, support, and holistic student life."
           },
           {
             id: "taglines-slogans",
             label: "Taglines & Slogans",
-            type: "long",
-            hint: "Key lines like ‘Transforming Education, Transforming India’.",
-            content: `Primary slogan: “Transforming Education, Transforming India.”\n\nSupporting lines (examples):\n• “Where big dreams get a bigger campus.”\n• “From Punjab to the world – build your future at LPU.”\n• “Learn, create, and lead at India’s global university.”`
+            type: "tags",
+            about:
+              "Core and campaign-specific lines associated with LPU.",
+            tags: [
+              "Transforming Education, Transforming India",
+              "Think Big. Think LPU.",
+              "Your Future, Our Campus.",
+              "From Classroom to Career."
+            ]
           },
           {
             id: "elevator-pitch",
             label: "Elevator Pitch",
-            type: "long",
-            hint: "Short, 30–60 second LPU description.",
-            content: `Lovely Professional University is one of India’s leading private universities, offering 150+ programmes on a modern 90-acre residential campus in Punjab. With students from all over India and dozens of countries, LPU combines global-standard infrastructure, industry-aligned curriculum, strong placements, and a vibrant campus life to help learners turn their aspirations into real careers and ventures.`
+            type: "text",
+            about:
+              "A 30–40 second spoken version of LPU’s value proposition.",
+            content:
+              "Lovely Professional University is one of India’s largest and most recognised private universities, with a 600-acre campus, NAAC A++ accreditation, strong national and global rankings, and thousands of successful placement stories every year. We bring together diverse students from across India and 50+ countries, offering industry-driven programmes, world-class infrastructure, and a vibrant campus life that prepares you for careers and entrepreneurship."
           },
           {
-            id: "copy-style-guide",
+            id: "copywriting-style-guide",
             label: "Copywriting Style Guide",
-            type: "long",
-            hint: "Writing rules – language, CTAs, proof points etc.",
-            content: `• Use active, positive language (“Build”, “Create”, “Lead”, “Rise”).\n• Keep sentences simple and clear for parents and students from varied language backgrounds.\n• Use numbers and proof points (rankings, placement stats) where possible.\n• Avoid jargon and internal abbreviations in external campaigns.\n• Always include a clear call to action (Apply, Enquire, Visit Campus, Talk to Counsellor).`
+            type: "text",
+            about:
+              "Do’s & don’ts for grammar, person (“we/you”), and claims.",
+            content: ""
           }
         ]
       },
-      {
-        id: "logo-guidelines",
-        label: "Logo Guidelines",
-        sections: [
+
+      "Logo Guidelines": {
+        description:
+          "How LPU’s logo should be used, sized, and protected.",
+        subPillars: [
           {
             id: "logo-variants",
             label: "Logo Variants",
-            type: "upload",
-            hint: "Primary, stacked, monochrome and other logo versions.",
+            type: "text",
+            about:
+              "Primary, secondary, monochrome, and small-space logo versions.",
             content: ""
           },
           {
             id: "clear-space-sizing",
             label: "Clear Space & Sizing",
-            type: "long",
-            hint: "Rules for minimum size and clear space around logo.",
-            content: `The LPU logo should always be used with sufficient clear space on all sides so that no other graphic or text competes with it. Minimum size and clear-space rules should be defined in pixels/mm for digital and print, ensuring legibility of the university name at small sizes.`
+            type: "text",
+            about:
+              "Minimum sizes and clear space rules for different mediums.",
+            content: ""
           },
           {
             id: "incorrect-usage",
             label: "Incorrect Usage",
-            type: "upload",
-            hint: "Examples of what not to do with the logo.",
+            type: "text",
+            about:
+              "Examples of what must never be done with the logo.",
             content: ""
           },
           {
-            id: "logo-downloads",
+            id: "logo-file-downloads",
             label: "Logo File Downloads",
-            type: "upload",
-            hint: "Ready-to-download master logo files.",
+            type: "text",
+            about:
+              "Central location for official logo assets and formats.",
             content: ""
           }
         ]
       },
-      {
-        id: "brand-colors",
-        label: "Brand Colors",
-        sections: [
+
+      "Brand Colors": {
+        description:
+          "The official colors that express LPU visually across media.",
+        subPillars: [
           {
-            id: "secondary-colors",
-            label: "Secondary Colors",
-            type: "color",
-            hint: "Supporting palette around the primary orange.",
-            content: ""
+            id: "primary-secondary-colors",
+            label: "Primary & Secondary Colors",
+            type: "colors",
+            about:
+              "Core palette derived from LPU’s orange plus supporting neutrals.",
+            colors: [
+              {
+                name: "LPU Orange",
+                hex: "#EF7D00",
+                rgb: "239, 125, 0",
+                cmyk: "0, 48, 100, 6",
+                role: "Primary brand color"
+              },
+              {
+                name: "Deep Charcoal",
+                hex: "#1F2933",
+                rgb: "31, 41, 51",
+                cmyk: "40, 20, 0, 80",
+                role: "Headlines, text, strong contrast"
+              },
+              {
+                name: "Soft Sand",
+                hex: "#FDF4E3",
+                rgb: "253, 244, 227",
+                cmyk: "0, 4, 10, 1",
+                role: "Backgrounds, panels"
+              },
+              {
+                name: "Accent Teal",
+                hex: "#0F766E",
+                rgb: "15, 118, 110",
+                cmyk: "87, 0, 39, 54",
+                role: "Highlights, graphs, links"
+              }
+            ]
           },
           {
             id: "color-codes",
-            label: "Color Codes (HEX, RGB, CMYK, Pantone)",
-            type: "long",
-            hint: "Technical colour codes for digital and print.",
-            content: `Primary Orange (approx.): HEX #F37021\nSupporting Neutrals: Black, White, and mid-gray tones for text and backgrounds.\n\nExact print CMYK and Pantone values should be defined based on the official artwork from LPU’s design team.`
+            label: "Color Codes",
+            type: "text",
+            about:
+              "Mapping of brand colors to HEX, RGB, CMYK, and Pantone.",
+            content:
+              "Document full codes for the primary and secondary palette, including print (CMYK) and screen (RGB/HEX) values, plus any Pantone references used for merchandise and signage."
           },
           {
             id: "color-usage-guidelines",
             label: "Usage Guidelines",
-            type: "long",
-            hint: "Where and how to apply colours consistently.",
-            content: `• Use orange as the key highlight color for calls-to-action, buttons, and key headings.\n• Combine orange with neutral backgrounds to maintain readability.\n• Avoid using too many bright accent colors that distract from the main identity.\n• Maintain sufficient contrast for accessibility, especially for text on colored backgrounds.`
+            type: "text",
+            about:
+              "Rules for how frequently and where each color can appear.",
+            content: ""
           },
           {
             id: "accessibility-compliance",
             label: "Accessibility Compliance",
-            type: "long",
-            hint: "WCAG-compliant contrast and colour usage.",
-            content: `Ensure that color combinations used on web and digital platforms meet WCAG contrast guidelines. All essential information should not rely on color alone and should be backed by text labels or icons.`
-          }
-        ]
-      },
-      {
-        id: "typography",
-        label: "Typography",
-        sections: [
-          {
-            id: "supporting-fonts",
-            label: "Supporting Fonts",
-            type: "long",
-            hint: "Fonts to use alongside the primary brand font.",
-            content: `In absence of the official font specification, use a clean, modern sans-serif family such as Montserrat, Open Sans, or similar for headings and body copy in digital mockups. For print, ensure that the chosen fonts support all required Indian languages and weights.`
-          },
-          {
-            id: "font-hierarchy",
-            label: "Font Hierarchy",
-            type: "long",
-            hint: "Type scale for headings, subheadings and body.",
-            content: `Example hierarchy:\n\n• H1 (Page titles): 32–36px, bold\n• H2 (Section titles): 24–28px, semi-bold\n• H3 (Sub-headings): 18–20px, semi-bold\n• Body text: 14–16px, regular\n• Captions/labels: 12–13px, regular\n\nConsistent hierarchy across website, brochures, and presentations reinforces the LPU identity.`
-          },
-          {
-            id: "web-print-rules",
-            label: "Web & Print Rules",
-            type: "long",
-            hint: "Differences in font usage on screen vs print.",
-            content: `• Maintain consistent font pairings across website, portal, brochures, and presentations.\n• Avoid using decorative or script fonts in official communication.\n• Ensure sufficient line spacing for readability, especially in prospectuses and policy documents.\n• For print, work with high-resolution fonts and avoid using compressed or stretched text.`
-          },
-          {
-            id: "line-height-kerning",
-            label: "Line Height & Kerning",
-            type: "long",
-            hint: "Spacing rules to maintain readability.",
-            content: `Recommended defaults:\n\n• Line height: 1.4–1.6 for body copy.\n• Slightly increased letter spacing for all-caps headings.\n• Avoid manually tightening kerning unless working on large display headlines.\n\nReadable typography is critical for prospective students and parents reviewing detailed programme information.`
-          }
-        ]
-      },
-      {
-        id: "imagery-style",
-        label: "Imagery Style",
-        sections: [
-          {
-            id: "filters-treatments",
-            label: "Filters & Treatments",
-            type: "long",
-            hint: "How photos should be edited and toned.",
-            content: `Use bright, natural-light photography that showcases the vibrancy of campus life. Subtle warming or contrast enhancements are acceptable, but heavy filters that distort brand colors should be avoided.`
-          },
-          {
-            id: "composition",
-            label: "Composition",
-            type: "long",
-            hint: "Framing and angle guidelines for photography.",
-            content: `Prefer wide shots of the campus, engaged classrooms, labs, and events, combined with mid and close-up shots of students and faculty. Images should feel dynamic, aspirational, and inclusive.`
-          },
-          {
-            id: "subject-guidelines",
-            label: "Subject Guidelines",
-            type: "long",
-            hint: "What or who should appear in images.",
-            content: `• Feature real LPU students and faculty wherever possible.\n• Show diversity in gender, region, and nationality.\n• Highlight academics, sports, culture, innovation, and student support services.\n• Avoid staged or artificial poses that feel inauthentic.`
-          },
-          {
-            id: "image-dos-donts",
-            label: "Image Do’s & Don’ts",
-            type: "upload",
-            hint: "Examples of correct vs incorrect imagery usage.",
+            type: "text",
+            about:
+              "Color contrast rules to ensure WCAG-compliant designs.",
             content: ""
           }
         ]
       },
-      {
-        id: "iconography",
-        label: "Iconography",
-        sections: [
+
+      "Typography": {
+        description:
+          "Font families and hierarchy for web, print, and screens.",
+        subPillars: [
           {
-            id: "grid-spacing-rules",
+            id: "supporting-fonts",
+            label: "Supporting Fonts",
+            type: "text",
+            about:
+              "Brand and fallback fonts (Latin + any Indian language families).",
+            content: ""
+          },
+          {
+            id: "font-hierarchy",
+            label: "Font Hierarchy",
+            type: "text",
+            about:
+              "Which font sizes and weights to use for H1–H6, body, captions.",
+            content: ""
+          },
+          {
+            id: "web-print-rules",
+            label: "Web & Print Rules",
+            type: "text",
+            about:
+              "Differences in line length, sizes, and leading between screen & print.",
+            content: ""
+          },
+          {
+            id: "line-height-kerning",
+            label: "Line Height & Kerning",
+            type: "text",
+            about:
+              "Baseline rules for readability and consistency.",
+            content: ""
+          }
+        ]
+      },
+
+      "Imagery Style": {
+        description:
+          "Photography and illustration rules to keep visuals consistent.",
+        subPillars: [
+          {
+            id: "filters-treatments",
+            label: "Filters & Treatments",
+            type: "text",
+            about:
+              "Any default color grading or overlays on photos.",
+            content: ""
+          },
+          {
+            id: "composition",
+            label: "Composition",
+            type: "text",
+            about:
+              "Preferred framing and subject balance (students, faculty, campus).",
+            content: ""
+          },
+          {
+            id: "subject-guidelines",
+            label: "Subject Guidelines",
+            type: "text",
+            about:
+              "Who and what appears in imagery: diversity, gender balance, activities.",
+            content: ""
+          },
+          {
+            id: "image-dos-donts",
+            label: "Image Do’s & Don’ts",
+            type: "text",
+            about:
+              "What imagery is off-brand or not allowed (e.g., stock-y, unrealistic).",
+            content: ""
+          }
+        ]
+      },
+
+      "Iconography": {
+        description:
+          "Icons used in digital and print materials.",
+        subPillars: [
+          {
+            id: "icon-grid-spacing",
             label: "Grid/Spacing Rules",
-            type: "long",
-            hint: "Icon grid size, padding and alignment rules.",
-            content: `Define a consistent grid (e.g., 24px or 32px) for creating icons used across the LPU website, portals, and apps so that they feel cohesive.`
+            type: "text",
+            about:
+              "Base grid size and padding for icons.",
+            content: ""
           },
           {
             id: "icon-color-usage",
             label: "Icon Color Usage",
-            type: "color",
-            hint: "Which colours to use for icon strokes and fills.",
+            type: "text",
+            about:
+              "How icons pick up brand colors vs. neutrals.",
             content: ""
           },
           {
             id: "icon-dos-donts",
             label: "Do’s & Don’ts",
-            type: "upload",
-            hint: "Good and bad examples of icon usage.",
+            type: "text",
+            about:
+              "What styles and sources are allowed or disallowed.",
             content: ""
           },
           {
             id: "icon-download-pack",
             label: "Download Pack",
-            type: "upload",
-            hint: "Ready icon packs for designers and devs.",
+            type: "text",
+            about:
+              "Central repository location for official icon sets.",
             content: ""
           }
         ]
       },
-      {
-        id: "graphic-elements",
-        label: "Graphic Elements",
-        sections: [
+
+      "Graphic Elements": {
+        description:
+          "Any decorative shapes, lines, patterns associated with LPU.",
+        subPillars: [
           {
             id: "decorative-shapes",
             label: "Decorative Shapes",
-            type: "upload",
-            hint: "Abstract shapes used in LPU layouts.",
+            type: "text",
+            about:
+              "Reusable shapes that appear in templates and campaigns.",
             content: ""
           },
           {
             id: "illustrations",
             label: "Illustrations",
-            type: "upload",
-            hint: "Custom illustrations and how to use them.",
+            type: "text",
+            about:
+              "Custom illustration style, if any.",
             content: ""
           },
           {
             id: "backgrounds",
             label: "Backgrounds",
-            type: "upload",
-            hint: "Branded background textures and gradients.",
+            type: "text",
+            about:
+              "Gradients, textures, or abstract motifs allowed in backgrounds.",
             content: ""
           },
           {
             id: "layering-rules",
             label: "Layering Rules",
-            type: "long",
-            hint: "How to layer photos, shapes, colours and text.",
-            content: `Specify how gradients, shapes, and photography can be layered without overpowering the LPU logo and key messages.`
+            type: "text",
+            about:
+              "How elements overlap (photos, shapes, text).",
+            content: ""
           }
         ]
       },
-      {
-        id: "motion-guidelines",
-        label: "Motion Guidelines",
-        sections: [
+
+      "Motion Guidelines": {
+        description:
+          "How motion/animation is used in digital touchpoints.",
+        subPillars: [
           {
             id: "motion-timing-easing",
             label: "Motion Timing/Easing",
-            type: "long",
-            hint: "Speed and easing recommendations for motion.",
-            content: `Use smooth, easing-based motion for banners, UI elements, and explainer videos. Avoid overly fast or distracting animations.`
+            type: "text",
+            about:
+              "Preferred animation curves and durations.",
+            content: ""
           },
           {
             id: "motion-use-cases",
             label: "Use Cases",
-            type: "long",
-            hint: "Where motion should be used and why.",
-            content: `Recommended use cases include homepage hero banners, programme highlight carousels, campus tour videos, and interactive infographics.`
+            type: "text",
+            about:
+              "Where motion is encouraged (web, app, video intros).",
+            content: ""
           },
           {
             id: "inappropriate-motion",
             label: "Inappropriate Motion",
-            type: "long",
-            hint: "Motion patterns that should be avoided.",
-            content: `Avoid flashing graphics, rapid looping animations, or motion that obscures important text, as these can be distracting and reduce accessibility.`
+            type: "text",
+            about:
+              "Motion patterns to avoid (too fast, flashy, distracting).",
+            content: ""
           },
           {
             id: "export-specs",
             label: "Export Specs",
-            type: "long",
-            hint: "Formats, resolutions and durations for motion assets.",
-            content: `Define preferred formats and sizes for motion assets (e.g., MP4, WebM, GIF) and platform-specific specs for website, YouTube, and social media.`
+            type: "text",
+            about:
+              "Recommended formats and resolutions for motion assets.",
+            content: ""
           }
         ]
       },
-      {
-        id: "ui-components",
-        label: "UI Components",
-        sections: [
+
+      "UI Components": {
+        description:
+          "Digital components for LPU’s web/app properties.",
+        subPillars: [
           {
             id: "inputs",
             label: "Inputs",
-            type: "long",
-            hint: "Form field styles for LPU web and portal.",
-            content: `Document standard input styles for enquiry forms, application portals, and student dashboards – including borders, focus states, and error messages.`
+            type: "text",
+            about:
+              "Design and behaviour of text fields, dropdowns, etc.",
+            content: ""
           },
           {
             id: "cards",
             label: "Cards",
-            type: "long",
-            hint: "Card layouts for programmes, events, news, etc.",
-            content: `Define card patterns for programmes, events, news items, and success stories, ensuring consistent padding, typography, and hover behaviour.`
+            type: "text",
+            about:
+              "How cards present programmes, news, rankings, etc.",
+            content: ""
           },
           {
             id: "navigation",
             label: "Navigation",
-            type: "long",
-            hint: "Primary, secondary and breadcrumb patterns.",
-            content: `Describe primary navigation (top bar), secondary navigation (mega menus), and breadcrumb patterns across the LPU web ecosystem.`
+            type: "text",
+            about:
+              "Global navigation rules across web and app.",
+            content: ""
           },
           {
             id: "interactive-states",
             label: "Interactive States",
-            type: "upload",
-            hint: "Hover, focus, disabled and pressed states.",
+            type: "text",
+            about:
+              "Hover, focus, pressed, and disabled states for components.",
             content: ""
           }
         ]
       },
-      {
-        id: "packaging-guidelines",
-        label: "Packaging Guidelines",
-        sections: [
+
+      "Packaging Guidelines": {
+        description:
+          "If/when LPU uses physical packaging (welcome kits, merch).",
+        subPillars: [
           {
             id: "label-design",
             label: "Label Design",
-            type: "upload",
-            hint: "Labels for books, kits, souvenirs and merch.",
+            type: "text",
+            about:
+              "For merchandise, kits, and learning materials.",
             content: ""
           },
           {
-            id: "barcoding-legal",
+            id: "barcoding-legal-info",
             label: "Barcoding & Legal Info",
-            type: "long",
-            hint: "Where to place barcodes and legal lines.",
-            content: `For physical merchandise (books, kits, souvenirs), document placement of barcodes, copyright lines, and regulatory marks where applicable.`
+            type: "text",
+            about:
+              "Any compliance marks needed on packaging.",
+            content: ""
           },
           {
             id: "unboxing-experience",
             label: "Unboxing Experience",
-            type: "long",
-            hint: "Experience when opening welcome kits and boxes.",
-            content: `Ensure welcome kits for new students and event packages feel premium yet practical, reflecting LPU’s emphasis on scale and care.`
+            type: "text",
+            about:
+              "How receiving LPU materials should feel.",
+            content: ""
           },
           {
             id: "sustainability-standards",
             label: "Sustainability Standards",
-            type: "long",
-            hint: "Eco-friendly packaging expectations for LPU.",
-            content: `Encourage eco-friendly packaging materials and minimal plastic wherever possible, aligning with LPU’s commitment to responsible citizenship.`
+            type: "text",
+            about:
+              "Preferences for recyclable materials, etc.",
+            content: ""
           }
         ]
       },
-      {
-        id: "signage-print",
-        label: "Signage & Print",
-        sections: [
+
+      "Signage & Print": {
+        description:
+          "Rules for campus signage, wayfinding, and print collateral.",
+        subPillars: [
           {
             id: "outdoor-signage",
             label: "Outdoor Signage",
-            type: "upload",
-            hint: "Campus gate, building and roadside signage.",
+            type: "text",
+            about:
+              "Billboards, hoardings, large campus signs.",
             content: ""
           },
           {
             id: "retail-displays",
             label: "Retail Displays",
-            type: "upload",
-            hint: "Displays used at fairs and partner locations.",
+            type: "text",
+            about:
+              "If LPU uses off-campus info kiosks or displays.",
             content: ""
           },
           {
             id: "print-sizes",
             label: "Print Sizes",
-            type: "table",
-            hint: "Standard sizes for posters, hoardings, standees.",
-            content: `Capture standard sizes for standees, hoardings, posters, and brochures used in admissions and events.`
+            type: "text",
+            about:
+              "Standard sizes and safe areas for posters, standees, etc.",
+            content: ""
           },
           {
-            id: "exhibition-booth",
+            id: "exhibition-booth-branding",
             label: "Exhibition Booth Branding",
-            type: "upload",
-            hint: "Stall layouts for education fairs and expos.",
+            type: "text",
+            about:
+              "How education fair booths must be branded.",
             content: ""
           }
         ]
       },
-      {
-        id: "templates-assets",
-        label: "Templates & Assets",
-        sections: [
+
+      "Templates & Assets": {
+        description:
+          "Reusable templates for daily marketing and communication.",
+        subPillars: [
           {
             id: "business-cards",
             label: "Business Cards",
-            type: "upload",
-            hint: "Official visiting card templates.",
+            type: "text",
+            about:
+              "Format, fonts, and data fields for staff cards.",
             content: ""
           },
           {
             id: "letterhead-design",
             label: "Letterhead Design",
-            type: "upload",
-            hint: "Standard letterhead and memo templates.",
+            type: "text",
+            about:
+              "Official letterhead template for academic and admin use.",
             content: ""
           },
           {
             id: "email-signatures",
             label: "Email Signatures",
-            type: "long",
-            hint: "Standard signature format for everyone at LPU.",
-            content: `Define a consistent email signature format for faculty, staff, and counsellors, including name, designation, school, contact details, and university logo.`
+            type: "text",
+            about:
+              "Standardised signatures across faculties and teams.",
+            content: ""
           },
           {
             id: "social-media-kits",
             label: "Social Media Kits",
-            type: "upload",
-            hint: "Packed PSDs, PNGs, and templates for social posts.",
+            type: "text",
+            about:
+              "Canva/Figma templates for posts, stories, and reels thumbnails.",
             content: ""
           }
         ]
       },
-      {
-        id: "usage-dos-donts",
-        label: "Usage Do’s & Don’ts",
-        sections: [
+
+      "Usage Do’s & Don’ts": {
+        description:
+          "Guardrails to prevent off-brand execution.",
+        subPillars: [
           {
             id: "color-misuse",
             label: "Color Misuse",
-            type: "upload",
-            hint: "Wrong colour usage examples to avoid.",
+            type: "text",
+            about:
+              "Examples of incorrect color usage.",
             content: ""
           },
           {
             id: "typography-errors",
             label: "Typography Errors",
-            type: "upload",
-            hint: "Wrong font, sizing and formatting examples.",
+            type: "text",
+            about:
+              "Misuse of fonts, weights, and line spacing.",
             content: ""
           },
           {
             id: "messaging-misalignment",
             label: "Messaging Misalignment",
-            type: "long",
-            hint: "Common mistakes in how LPU is described.",
-            content: `List examples where messaging may overpromise, misrepresent rankings, or create confusion, and provide corrected versions to ensure consistency and compliance.`
+            type: "text",
+            about:
+              "Examples where messages conflict with brand promise.",
+            content: ""
           },
           {
             id: "visual-mistakes",
             label: "Visual Mistakes",
-            type: "upload",
-            hint: "Layouts that break core brand rules.",
+            type: "text",
+            about:
+              "Poor compositions, low-quality images, etc.",
             content: ""
           }
         ]
       },
-      {
-        id: "co-branding-rules",
-        label: "Co-Branding Rules",
-        sections: [
+
+      "Co-Branding Rules": {
+        description:
+          "How LPU appears alongside partner logos and brands.",
+        subPillars: [
           {
             id: "co-brand-hierarchy",
             label: "Brand Hierarchy",
-            type: "long",
-            hint: "Logo lockup rules when LPU partners with others.",
-            content: `Explain how LPU’s logo should appear alongside logos of industry partners, NGOs, and international universities, including size ratios and alignment.`
+            type: "text",
+            about:
+              "Which logo comes first and how big each is.",
+            content: ""
           },
           {
-            id: "co-brand-campaign-examples",
+            id: "co-brand-examples",
             label: "Campaign Examples",
-            type: "upload",
-            hint: "Sample creatives from past co-branded campaigns.",
+            type: "text",
+            about:
+              "Approved layouts from past campaigns.",
             content: ""
           },
           {
             id: "co-brand-dos-donts",
             label: "Do’s & Don’ts",
-            type: "long",
-            hint: "Clear rules for partners using the LPU brand.",
-            content: `Clarify acceptable use of LPU name in partner campaigns, and restrictions on phrases that may imply ownership, endorsement, or ranking claims not approved by the university.`
+            type: "text",
+            about:
+              "What partners may or may not do with the LPU logo.",
+            content: ""
           },
           {
-            id: "co-brand-terms",
+            id: "co-brand-terms-guidelines",
             label: "Co-brand Terms & Guidelines",
-            type: "long",
-            hint: "Legal and practical conditions of co-branding.",
-            content: `Summarise standard clauses used in MoUs and marketing agreements that govern use of LPU brand assets by partners.`
+            type: "text",
+            about:
+              "Legal and visual conditions for co-branded communication.",
+            content: ""
           }
         ]
       },
-      {
-        id: "legal-trademarks",
-        label: "Legal & Trademarks",
-        sections: [
+
+      "Legal & Trademarks": {
+        description:
+          "Legal framework around LPU’s identity, content, and usage.",
+        subPillars: [
           {
             id: "copyright-claims",
             label: "Copyright Claims",
-            type: "long",
-            hint: "Ownership statements for content and assets.",
-            content: `List legal statements covering ownership of course content, photographs, videos, and brand materials created by or for LPU.`
+            type: "text",
+            about:
+              "How to represent ownership of content, imagery, and materials.",
+            content: ""
           },
           {
             id: "licensing-terms",
             label: "Licensing Terms",
-            type: "long",
-            hint: "Rules for third-party use of LPU brand assets.",
-            content: `Describe how third parties (publishers, partners, agencies) may be licensed to use LPU marks and under what conditions.`
+            type: "text",
+            about:
+              "How and when third parties can use LPU brand assets.",
+            content: ""
           },
           {
             id: "disclaimers",
             label: "Disclaimers",
-            type: "long",
-            hint: "Standard marketing and statistics disclaimers.",
-            content: `Standard disclaimer examples for rankings, placement statistics, and testimonials to be used in marketing collateral.`
+            type: "text",
+            about:
+              "Standard disclaimers (rankings, placements, scholarships, etc.).",
+            content: ""
           },
           {
             id: "brand-abuse-reporting",
             label: "Brand Abuse Reporting",
-            type: "short",
-            hint: "Where people can report misuse of the LPU brand.",
-            content: `Provide a dedicated email/address where misuse of the LPU name or logo can be reported.`
+            type: "text",
+            about:
+              "Where and how to report misuse of the LPU name or logo.",
+            content: ""
           }
         ]
       },
-      {
-        id: "industry-custom",
-        label: "Industry Custom Modules",
-        sections: [
+
+      "Industry Custom Modules": {
+        description:
+          "Any extra brand book sections that apply to specific verticals.",
+        subPillars: [
           {
             id: "fashion-lookbooks",
-            label: "Fashion: Fabric Visuals, Lookbooks",
-            type: "upload",
-            hint: "Lookbook and fabric visual templates for fashion.",
+            label: "Fashion: Fabric Visuals & Lookbooks",
+            type: "text",
+            about:
+              "Guidelines for School of Fashion’s lookbooks and visuals.",
             content: ""
           },
           {
-            id: "food-label-regs",
+            id: "food-label-regulations",
             label: "Food: Label Regulations",
-            type: "long",
-            hint: "How brand must respect food labeling rules.",
-            content: `For LPU programmes related to food technology or nutrition, outline how brand guidelines intersect with FSSAI or other regulatory label requirements.`
+            type: "text",
+            about:
+              "If any programmes or spin-offs need food labelling rules.",
+            content: ""
           },
           {
-            id: "finance-disclosures",
+            id: "finance-legal-disclosures",
             label: "Finance: Legal Disclosures",
-            type: "long",
-            hint: "Mandatory notes for finance-related content.",
-            content: `For finance and commerce related communications, list any mandatory disclosures or disclaimers to be printed with charts, projections, or case studies.`
+            type: "text",
+            about:
+              "Disclosures for finance-related publications and marketing.",
+            content: ""
           }
         ]
       },
-      {
-        id: "accessibility-standards",
-        label: "Accessibility Standards",
-        sections: [
+
+      "Accessibility Standards": {
+        description:
+          "How LPU ensures inclusive communication and digital access.",
+        subPillars: [
           {
             id: "font-readability",
             label: "Font Readability",
-            type: "long",
-            hint: "Minimum sizes and contrast for reading comfort.",
-            content: `Ensure that all body text is readable on mobile and desktop, with sufficient size and contrast. Avoid large blocks of unbroken text; use headings and bullet points.`
+            type: "text",
+            about:
+              "Minimum sizes and weights for body text, especially on mobile.",
+            content: ""
           },
           {
             id: "alt-text-rules",
             label: "Alt Text Rules",
-            type: "long",
-            hint: "How to write effective alt text for images.",
-            content: `Every meaningful image used on digital platforms should have clear, descriptive alt text that conveys its purpose (e.g., “Students working in the LPU engineering lab”).`
+            type: "text",
+            about:
+              "How to write meaningful alt text for images.",
+            content: ""
           },
           {
             id: "screen-reader-labels",
             label: "Screen Reader Labels",
-            type: "long",
-            hint: "Labels and ARIA attributes for screen readers.",
-            content: `Interactive elements such as buttons, menus, and form fields on LPU websites and portals should have accessible labels and ARIA attributes where needed so that screen-reader users can navigate easily.`
+            type: "text",
+            about:
+              "ARIA labels and roles for web/app components.",
+            content: ""
           },
           {
             id: "wcag-ada-guidelines",
             label: "WCAG/ADA Guidelines",
-            type: "long",
-            hint: "Checklist for meeting accessibility standards.",
-            content: `Aim to meet at least WCAG 2.1 AA level compliance for all new web experiences, including keyboard navigability, focus states, structured headings, and error feedback in forms.`
+            type: "text",
+            about:
+              "Which WCAG level is targeted and how to maintain it.",
+            content: ""
           }
         ]
       }
-    ];
+    };
 
-    // ---------- STATE ----------
-    const completionState = {};
-    BRAND_STRUCTURE.forEach(p =>
-      p.sections.forEach(sec => {
-        completionState[sec.id] = true; // pre-mark all as completed
-      })
-    );
-    const totalSections = BRAND_STRUCTURE.reduce(
-      (sum, p) => sum + p.sections.length,
-      0
-    );
+    // ---- INITIALISATION ----
+    const pillarSelect = document.getElementById("pillarSelect");
+    const subPillarSelect = document.getElementById("subPillarSelect");
+    const pillarTitleEl = document.getElementById("pillarTitle");
+    const subPillarTitleEl = document.getElementById("subPillarTitle");
+    const subPillarDescriptionEl = document.getElementById("subPillarDescription");
+    const subPillarTypeEl = document.getElementById("subPillarType");
+    const sectionBodyEl = document.getElementById("sectionBody");
 
-    // ---------- DOM REFS ----------
-    const pillarListEl = document.getElementById("pillarList");
-    const formRoot = document.getElementById("formRoot");
-    const sectionTitleEl = document.getElementById("sectionTitle");
-    const sectionSubtitleEl = document.getElementById("sectionSubtitle");
-    const progressBarEl = document.getElementById("progressBar");
-    const progressTextEl = document.getElementById("progressText");
-    const progressPercentEl = document.getElementById("progressPercent");
-
-    // ---------- SIDEBAR RENDER ----------
-    function renderSidebar() {
-      pillarListEl.innerHTML = "";
-      BRAND_STRUCTURE.forEach((pillar, idx) => {
-        const li = document.createElement("li");
-        li.className = "pillar-item";
-
-        const header = document.createElement("div");
-        header.className = "pillar-header" + (idx === 0 ? " active" : "");
-        header.dataset.pillarId = pillar.id;
-        header.innerHTML = `
-          <span>${pillar.label}</span>
-          <i class="fas fa-chevron-right"></i>
-        `;
-
-        const subList = document.createElement("ul");
-        subList.className = "sub-pillars" + (idx === 0 ? " show" : "");
-        pillar.sections.forEach((sec, sIdx) => {
-          const subLi = document.createElement("li");
-          subLi.className =
-            "sub-pillar" +
-            (idx === 0 && sIdx === 0 ? " active completed" : " completed");
-          subLi.dataset.sectionId = sec.id;
-          const summaryText =
-            sec.hint || "Click to edit details for this section.";
-
-          subLi.innerHTML = `
-            <div class="sub-pillar-main">
-              <div class="sub-pillar-left">
-                <i class="fas fa-circle-notch"></i>
-                <span>${sec.label}</span>
-              </div>
-              <span class="status-dot"></span>
-            </div>
-            <div class="sub-pillar-summary">${summaryText}</div>
-          `;
-          subList.appendChild(subLi);
-        });
-
-        li.appendChild(header);
-        li.appendChild(subList);
-        pillarListEl.appendChild(li);
+    function initSelectors() {
+      // Populate pillar select
+      Object.keys(brandData).forEach((pillarName, idx) => {
+        const opt = document.createElement("option");
+        opt.value = pillarName;
+        opt.textContent = pillarName;
+        pillarSelect.appendChild(opt);
       });
 
-      // turn status dots green
-      document
-        .querySelectorAll(".sub-pillar.completed .status-dot")
-        .forEach(dot => {
-          dot.style.background = "var(--success)";
-        });
+      pillarSelect.addEventListener("change", onPillarChange);
+      subPillarSelect.addEventListener("change", onSubPillarChange);
 
-      bindSidebarEvents();
+      // Trigger default selection
+      pillarSelect.value = "Brand Overview";
+      populateSubPillars("Brand Overview");
+      onSubPillarChange();
     }
 
-    function bindSidebarEvents() {
-      document.querySelectorAll(".pillar-header").forEach((header) => {
-        header.addEventListener("click", () => {
-          document.querySelectorAll(".pillar-header").forEach((h) => {
-            if (h !== header) {
-              h.classList.remove("active");
-              h.nextElementSibling.classList.remove("show");
-            }
-          });
-          header.classList.toggle("active");
-          header.nextElementSibling.classList.toggle("show");
-        });
-      });
-
-      document.querySelectorAll(".sub-pillar").forEach((sub) => {
-        sub.addEventListener("click", () => {
-          const sectionId = sub.dataset.sectionId;
-          document
-            .querySelectorAll(".sub-pillar")
-            .forEach((s) => s.classList.remove("active"));
-          sub.classList.add("active");
-          const section = findSectionById(sectionId);
-          if (section) renderSectionForm(section);
-        });
+    function populateSubPillars(pillarName) {
+      subPillarSelect.innerHTML = "";
+      const pillar = brandData[pillarName];
+      pillar.subPillars.forEach((sp, idx) => {
+        const opt = document.createElement("option");
+        opt.value = sp.id;
+        opt.textContent = sp.label;
+        subPillarSelect.appendChild(opt);
       });
     }
 
-    function findSectionById(id) {
-      for (const pillar of BRAND_STRUCTURE) {
-        for (const sec of pillar.sections) {
-          if (sec.id === id) return { pillar, sec };
-        }
-      }
-      return null;
+    function onPillarChange() {
+      const pillarName = pillarSelect.value;
+      populateSubPillars(pillarName);
+      onSubPillarChange();
     }
 
-    // ---------- RENDER SECTION FORM ----------
-    function renderSectionForm({ pillar, sec }) {
-      sectionTitleEl.textContent = sec.label;
-      sectionSubtitleEl.textContent = pillar.label;
+    function onSubPillarChange() {
+      const pillarName = pillarSelect.value;
+      const pillar = brandData[pillarName];
+      const subId = subPillarSelect.value;
+      const sub = pillar.subPillars.find((s) => s.id === subId);
 
-      const container = document.createElement("div");
-      container.className = "form-container";
+      pillarTitleEl.textContent = pillarName;
+      subPillarTitleEl.textContent = sub.label;
+      subPillarDescriptionEl.textContent = sub.about || pillar.description;
+      subPillarTypeEl.textContent = sub.type || "text";
 
-      const header = document.createElement("div");
-      header.className = "form-header";
-      header.innerHTML = `
-        <h3>${sec.label}</h3>
-        <p>${sec.hint || "Edit the pre-filled LPU content for this section if needed."}</p>
-      `;
-      container.appendChild(header);
+      renderSectionBody(pillarName, sub);
+    }
 
-      const formBody = document.createElement("div");
+    // ---- RENDERERS ----
+    function renderSectionBody(pillarName, sub) {
+      sectionBodyEl.innerHTML = "";
 
-      switch (sec.type) {
-        case "short":
-          formBody.appendChild(makeShortField(sec));
+      switch (sub.type) {
+        case "stats":
+          renderStatsSection(sub);
           break;
-        case "upload":
-          formBody.appendChild(makeUploadField());
+        case "timeline":
+          renderTimelineSection(sub);
           break;
-        case "table":
-          formBody.appendChild(makeTableField(sec));
+        case "cohorts":
+          renderCohortSection(sub);
           break;
         case "swot":
-          formBody.appendChild(makeSwotField());
+          renderSwotSection(sub);
           break;
-        case "color":
-          formBody.appendChild(makeColorField());
+        case "benchmarks":
+          renderBenchmarksSection(sub);
           break;
-        case "cohort":
-          formBody.appendChild(makeCohortField());
+        case "colors":
+          renderColorSection(sub);
           break;
-        case "long":
+        case "tags":
+          renderTagsSection(sub);
+          break;
+        case "text":
         default:
-          formBody.appendChild(makeLongField(sec));
+          renderTextSection(sub);
           break;
       }
+    }
 
-      container.appendChild(formBody);
+    function renderStatsSection(sub) {
+      const statsGrid = document.createElement("div");
+      statsGrid.className = "stats-grid";
 
-      const actions = document.createElement("div");
-      actions.className = "form-actions";
-      actions.innerHTML = `
-        <button class="btn btn-outline" type="button">
-          <i class="fas fa-rotate-left"></i> Reset (demo)
-        </button>
-        <button class="btn btn-primary" type="button">
-          Section Saved <i class="fas fa-check"></i>
-        </button>
-      `;
-      container.appendChild(actions);
-
-      formRoot.innerHTML = "";
-      formRoot.appendChild(container);
-
-      container.addEventListener("click", (e) => {
-        if (e.target.classList.contains("chip-toggle")) {
-          e.target.classList.toggle("active");
-        }
+      sub.stats.forEach((s) => {
+        const card = document.createElement("div");
+        card.className = "stat-card";
+        card.innerHTML = `
+          <div class="stat-title">${s.label}</div>
+          <div class="stat-value">${s.value}</div>
+          ${
+            s.note
+              ? `<div class="stat-note">${s.note}</div>`
+              : ""
+          }
+        `;
+        statsGrid.appendChild(card);
       });
-    }
 
-    // ---------- FIELD BUILDERS ----------
-    function makeShortField(sec) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      wrapper.innerHTML = `
-        <label>${sec.label}</label>
-        <input type="text" value="${sec.content || ""}" />
-      `;
-      return wrapper;
-    }
+      sectionBodyEl.appendChild(statsGrid);
 
-    function makeLongField(sec) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      const content = sec.content || "";
-      wrapper.innerHTML = `
-        <label>${sec.label}</label>
-        <textarea>${content}</textarea>
-        <div class="hint">Pre-filled for LPU – you can edit this text.</div>
-      `;
-      return wrapper;
-    }
-
-    function makeUploadField() {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      wrapper.innerHTML = `
-        <label>Upload Asset (Placeholder)</label>
-        <div class="file-upload">
-          <i class="fas fa-cloud-upload-alt"></i>
-          <p>Click to simulate uploading an image/file</p>
+      // students:faculty ratio bar (static, uses known values)
+      const ratioWrap = document.createElement("div");
+      ratioWrap.innerHTML = `
+        <div class="ratio-bar">
+          <div class="ratio-inner"></div>
         </div>
-        <div class="hint">Replace this with a real file input when you integrate the backend.</div>
+        <div class="ratio-labels">
+          <span>Students per Faculty (approx.)</span>
+          <span>≈ 28 : 1</span>
+        </div>
+        <div class="helper-text">
+          Based on ~58,500 students and ~2,065 faculty. Actual ratio varies by school.
+        </div>
       `;
-      wrapper.querySelector(".file-upload").addEventListener("click", (e) => {
-        e.currentTarget.innerHTML =
-          '<i class="fas fa-check-circle"></i><p>File uploaded (demo)</p>';
-        e.currentTarget.style.borderColor = "var(--accent)";
-        e.currentTarget.style.backgroundColor = "rgba(72,149,239,0.08)";
+      sectionBodyEl.appendChild(ratioWrap);
+    }
+
+    function renderTimelineSection(sub) {
+      const timeline = document.createElement("div");
+      timeline.className = "timeline";
+
+      sub.timeline.forEach((item) => {
+        const node = document.createElement("div");
+        node.className = "timeline-item";
+        node.innerHTML = `
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">${item.year}</div>
+          <div class="timeline-text">${item.text}</div>
+        `;
+        timeline.appendChild(node);
       });
-      return wrapper;
+
+      sectionBodyEl.appendChild(timeline);
     }
 
-    function makeTableField(sec) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      const note =
-        sec.content ||
-        "Use this structured grid to list points, comparisons or internal vs external applications.";
-      wrapper.innerHTML = `
-        <label>${sec.label}</label>
-        <div class="swot-grid">
-          <div class="swot-box">
-            <h4>Item 1</h4>
-            <textarea placeholder="Describe item 1"></textarea>
-          </div>
-          <div class="swot-box">
-            <h4>Item 2</h4>
-            <textarea placeholder="Describe item 2"></textarea>
-          </div>
-          <div class="swot-box">
-            <h4>Item 3</h4>
-            <textarea placeholder="Describe item 3"></textarea>
-          </div>
-          <div class="swot-box">
-            <h4>Item 4</h4>
-            <textarea placeholder="Describe item 4"></textarea>
-          </div>
-        </div>
-        <div class="hint">${note}</div>
+    function renderCohortSection(sub) {
+      const grid = document.createElement("div");
+      grid.className = "cohort-grid";
+
+      sub.cohorts.forEach((c) => {
+        const card = document.createElement("div");
+        card.className = "cohort-card";
+
+        const metaPills = (c.meta || [])
+          .map((m) => `<span class="cohort-pill">${m}</span>`)
+          .join("");
+
+        const needsList = (c.needs || [])
+          .map((n) => `<li>${n}</li>`)
+          .join("");
+
+        const channelList = (c.channels || [])
+          .map((ch) => `<li>${ch}</li>`)
+          .join("");
+
+        card.innerHTML = `
+          <div class="cohort-name">${c.name}</div>
+          <div class="cohort-tagline">${c.tagline || ""}</div>
+          <div class="cohort-meta">${metaPills}</div>
+          <div class="cohort-list-title">Key needs</div>
+          <ul class="cohort-list">${needsList}</ul>
+          <div class="cohort-list-title">Key channels</div>
+          <ul class="cohort-list">${channelList}</ul>
+        `;
+        grid.appendChild(card);
+      });
+
+      sectionBodyEl.appendChild(grid);
+    }
+
+    function renderSwotSection(sub) {
+      const grid = document.createElement("div");
+      grid.className = "swot-grid";
+
+      const entries = [
+        { key: "strengths", label: "Strengths", class: "swot-strength" },
+        { key: "weaknesses", label: "Weaknesses", class: "swot-weakness" },
+        { key: "opportunities", label: "Opportunities", class: "swot-opportunity" },
+        { key: "threats", label: "Threats", class: "swot-threat" }
+      ];
+
+      entries.forEach((entry) => {
+        const items = sub.swot[entry.key] || [];
+        const block = document.createElement("div");
+        block.className = `swot-block ${entry.class}`;
+        block.innerHTML = `
+          <div class="swot-title">${entry.label}</div>
+          <ul class="swot-list">
+            ${items.map((i) => `<li>${i}</li>`).join("")}
+          </ul>
+        `;
+        grid.appendChild(block);
+      });
+
+      sectionBodyEl.appendChild(grid);
+    }
+
+    function renderBenchmarksSection(sub) {
+      const wrap = document.createElement("div");
+      wrap.className = "table-wrap";
+
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th>Metric</th>
+          <th>Rank / Score</th>
+          <th>Visual Benchmark</th>
+        </tr>
       `;
-      return wrapper;
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      sub.benchmarks.forEach((b) => {
+        const percentage =
+          b.betterIsLower && b.outOf
+            ? Math.max(5, Math.round(((b.outOf - b.value + 1) / b.outOf) * 100))
+            : 60;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${b.metric}</td>
+          <td>${b.value}${b.outOf ? ` / ${b.outOf}` : ""}</td>
+          <td>
+            <div class="rank-bar-shell">
+              <div class="rank-bar" style="--w:${percentage}%;"></div>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      wrap.appendChild(table);
+      sectionBodyEl.appendChild(wrap);
+
+      const helper = document.createElement("div");
+      helper.className = "helper-text";
+      helper.textContent =
+        "Bars are illustrative but based on actual ranking positions (lower rank number = better performance).";
+      sectionBodyEl.appendChild(helper);
     }
 
-    function makeSwotField() {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      wrapper.innerHTML = `
-        <label>SWOT Analysis</label>
-        <div class="swot-grid">
-          <div class="swot-box">
-            <h4>Strengths</h4>
-            <textarea placeholder="Internal positive attributes of LPU"></textarea>
+    function renderColorSection(sub) {
+      const grid = document.createElement("div");
+      grid.className = "color-grid";
+
+      sub.colors.forEach((c) => {
+        const card = document.createElement("div");
+        card.className = "color-card";
+        card.innerHTML = `
+          <div class="color-swatch" style="background:${c.hex};"></div>
+          <div class="color-meta">
+            <div class="color-name">${c.name}</div>
+            <div class="color-row">
+              <span>HEX</span><span>${c.hex}</span>
+            </div>
+            <div class="color-row">
+              <span>RGB</span><span>${c.rgb}</span>
+            </div>
+            <div class="color-row">
+              <span>CMYK</span><span>${c.cmyk}</span>
+            </div>
+            <div class="helper-text">${c.role}</div>
           </div>
-          <div class="swot-box">
-            <h4>Weaknesses</h4>
-            <textarea placeholder="Internal challenges or gaps"></textarea>
-          </div>
-          <div class="swot-box">
-            <h4>Opportunities</h4>
-            <textarea placeholder="External trends or opportunities"></textarea>
-          </div>
-          <div class="swot-box">
-            <h4>Threats</h4>
-            <textarea placeholder="External risks or competition"></textarea>
-          </div>
-        </div>
-      `;
-      return wrapper;
+        `;
+        grid.appendChild(card);
+      });
+
+      sectionBodyEl.appendChild(grid);
     }
 
-    function makeColorField() {
-      const wrapper = document.createElement("div");
-      wrapper.className = "form-group";
-      wrapper.innerHTML = `
-        <label>Primary / Secondary Color (Demo)</label>
-        <input type="color" value="#F37021" />
-        <div class="hint">Approximate LPU orange – confirm exact values with official brand team.</div>
-      `;
-      return wrapper;
+    function renderTagsSection(sub) {
+      const cloud = document.createElement("div");
+      cloud.className = "tag-cloud";
+      (sub.tags || []).forEach((t) => {
+        const span = document.createElement("span");
+        span.textContent = t;
+        cloud.appendChild(span);
+      });
+      sectionBodyEl.appendChild(cloud);
     }
 
-    function makeCohortField() {
-      const wrapper = document.createElement("div");
-      wrapper.innerHTML = `
-        <div class="form-group">
-          <label>Audience Details – Example Cohorts for LPU</label>
-          <div class="hint">Toggle chips to visualise typical LPU student segments.</div>
-        </div>
+    function renderTextSection(sub) {
+      if (!sub.content) {
+        const notice = document.createElement("div");
+        notice.className = "notice-empty";
+        notice.textContent =
+          "No data prefilled for LPU here – this is intentionally left for your internal team to complete.";
+        sectionBodyEl.appendChild(notice);
+      }
 
-        <div class="form-group">
-          <label>Age</label>
-          <div class="chip-row">
-            <button type="button" class="chip-toggle active">18–24 Years</button>
-            <button type="button" class="chip-toggle">25–34 Years</button>
-          </div>
-        </div>
+      const textarea = document.createElement("textarea");
+      textarea.value = sub.content || "";
+      textarea.placeholder =
+        "Add your detailed brand guidance for this sub-pillar here…";
+      textarea.readOnly = false; // In your real app you can toggle readonly/edit modes.
+      sectionBodyEl.appendChild(textarea);
 
-        <div class="form-group">
-          <label>Gender</label>
-          <div class="chip-row">
-            <button type="button" class="chip-toggle active">Male</button>
-            <button type="button" class="chip-toggle active">Female</button>
-            <button type="button" class="chip-toggle">Others</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Parental Status</label>
-          <div class="chip-row">
-            <button type="button" class="chip-toggle active">Not a Parent</button>
-            <button type="button" class="chip-toggle">Parent</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Household Income (Illustrative)</label>
-          <div class="chip-row">
-            <button type="button" class="chip-toggle active">CAT-A (0–5L)</button>
-            <button type="button" class="chip-toggle active">CTA-B (5–10L)</button>
-            <button type="button" class="chip-toggle">MIG (10–20L)</button>
-            <button type="button" class="chip-toggle">HIG (20L+)</button>
-          </div>
-        </div>
-
-        <hr style="border:none;border-top:1px solid var(--light-gray);margin:16px 0;">
-
-        <div class="form-group">
-          <label>Locations</label>
-          <div class="radio-row">
-            <label><input type="radio" name="locMode" checked /> India (Tier-2/3 focus)</label>
-            <label><input type="radio" name="locMode" /> International (Africa, South-Asia, etc.)</label>
-          </div>
-          <input type="text" placeholder="Add specific states, cities or countries for this cohort">
-        </div>
-
-        <div class="form-group">
-          <label>Interest</label>
-          <input type="text" placeholder="e.g., Engineering, Management, Design, Study Abroad">
-        </div>
-
-        <div class="form-group">
-          <label>Selected Interests (Example)</label>
-          <div class="selected-tags">
-            <span class="tag-pill">Engineering</span>
-            <span class="tag-pill">Management</span>
-            <span class="tag-pill">International exposure</span>
-          </div>
-        </div>
-      `;
-      return wrapper;
+      const help = document.createElement("div");
+      help.className = "helper-text";
+      help.textContent =
+        "This field is best kept as structured paragraphs or bullet points in your Brand Book export.";
+      sectionBodyEl.appendChild(help);
     }
 
-    // ---------- COMPLETION ----------
-    function updateCompletionUI() {
-      const completed = Object.keys(completionState).length;
-      const percent = 100; // fixed at 100% because everything is pre-completed
-      progressBarEl.style.width = percent + "%";
-      progressTextEl.textContent = `${percent}% Complete (${completed} / ${totalSections} sections)`;
-      progressPercentEl.textContent = `${percent}%`;
-    }
-
-    // ---------- INIT ----------
-    renderSidebar();
-    updateCompletionUI();
-
-    // open first section (Brand History) by default
-    const firstPillar = BRAND_STRUCTURE[0];
-    const firstSec = firstPillar.sections[0];
-    renderSectionForm({ pillar: firstPillar, sec: firstSec });
+    document.addEventListener("DOMContentLoaded", initSelectors);
   </script>
 </body>
 </html>
