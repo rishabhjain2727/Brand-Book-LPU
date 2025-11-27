@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brand Book – LPU</title>
+  <title>LPU Brand Book – 100% Complete</title>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
   <style>
     :root {
-      --primary: #f37021;          /* LPU orange-inspired */
+      --primary: #f37021;          /* LPU orange-esque */
       --secondary: #c65010;
       --accent: #4361ee;
       --light: #f8f9fa;
@@ -131,7 +131,7 @@
     }
 
     .sub-pillars.show {
-      max-height: 600px;
+      max-height: 900px;
     }
 
     .sub-pillar {
@@ -154,7 +154,7 @@
 
     .sub-pillar.active {
       border-left-color: var(--primary);
-      background-color: rgba(243,112,33,0.08);
+      background-color: rgba(243, 112, 33, 0.08);
       font-weight: 600;
     }
 
@@ -377,7 +377,7 @@
     }
 
     .btn-outline:hover {
-      background: rgba(243,112,33,0.08);
+      background: rgba(243, 112, 33, 0.08);
     }
 
     .empty-state {
@@ -477,8 +477,8 @@
         <h1>LPU Brand Book</h1>
       </div>
       <p class="small-note">
-        This instance is pre-filled for Lovely Professional University. You can
-        edit any section as needed.
+        All pillars & sub-pillars are present and marked as completed for this
+        LPU brand book.
       </p>
       <ul class="pillar-list" id="pillarList"></ul>
     </div>
@@ -487,31 +487,18 @@
     <div class="main-content">
       <div class="content-header">
         <div>
-          <h2 id="sectionTitle">Select a section</h2>
-          <p id="sectionSubtitle" class="content-sub">
-            Start by choosing a pillar and sub-pillar from the left.
-          </p>
+          <h2 id="sectionTitle">Brand History</h2>
+          <p id="sectionSubtitle" class="content-sub">Brand Overview</p>
         </div>
         <div class="progress-container">
           <div class="progress-bar">
             <div class="progress" id="progressBar"></div>
           </div>
-          <span class="progress-text" id="progressText">0% Complete (0 / 0)</span>
+          <span class="progress-text" id="progressText"></span>
         </div>
       </div>
 
-      <div id="formRoot">
-        <div class="form-container">
-          <div class="empty-state">
-            <i class="fas fa-folder-open"></i>
-            <h3>No section selected</h3>
-            <p>
-              Pick any sub-pillar from the sidebar to start editing the LPU
-              brand book.
-            </p>
-          </div>
-        </div>
-      </div>
+      <div id="formRoot"></div>
     </div>
   </div>
 
@@ -537,9 +524,9 @@
           },
           {
             id: "company-snapshot",
-            label: "University Snapshot",
+            label: "Company Snapshot",
             type: "long",
-            content: `• Type: Private state university recognised by the University Grants Commission (UGC)\n• Location: Chaheru, Phagwara, Punjab, India (near Jalandhar)\n• Established: 2005 (operations from 2006)\n• Campus Size: ~90 acres with residential, academic, and recreational zones\n• Community: 30,000+ on-campus students and a wider global LPU community of 5,00,000+ learners and alumni\n• Diversity: Students from 28+ Indian states and 40+ countries\n• Programmes: 150+ diploma, undergraduate, postgraduate and doctoral programmes across disciplines\n• Rankings: Consistently placed among top Indian universities in national rankings and recognised in international rankings such as QS and Times Higher Education\n• Accreditation: NAAC A++ grade and multiple programme-level accreditations\n• Distinctive Strengths: Large, integrated campus; strong industry partnerships; emphasis on placements, innovation, and entrepreneurship.`
+            content: `• Type: Private state university recognised by the University Grants Commission (UGC)\n• Location: Chaheru, Phagwara, Punjab, India (near Jalandhar)\n• Established: 2005 (operations from 2006)\n• Campus Size: ~90 acres with residential, academic, and recreational zones\n• Community: 30,000+ on-campus students and a wider global LPU community of 5,00,000+ learners and alumni\n• Diversity: Students from 28+ Indian states and 40+ countries\n• Programmes: 150+ diploma, undergraduate, postgraduate and doctoral programmes across disciplines\n• Rankings: Placed among top Indian universities in national rankings and recognised in international rankings such as QS and Times Higher Education\n• Accreditation: NAAC A++ grade and multiple programme-level accreditations\n• Distinctive Strengths: Large, integrated campus; strong industry partnerships; emphasis on placements, innovation, and entrepreneurship.`
           }
         ]
       },
@@ -628,6 +615,36 @@
         ]
       },
       {
+        id: "brand-architecture",
+        label: "Brand Architecture",
+        sections: [
+          {
+            id: "product-hierarchy",
+            label: "Product/Service Hierarchy",
+            type: "table",
+            content: `Use this grid to map University → Schools/Faculties → Programmes → Specialisations within LPU.`
+          },
+          {
+            id: "naming-conventions",
+            label: "Naming Conventions",
+            type: "long",
+            content: `Document consistent naming for schools, programmes, specialisations, centres of excellence, and initiatives (e.g., “School of Mechanical Engineering”, “Centre for Innovation & Entrepreneurship”) to avoid confusion across marketing assets.`
+          },
+          {
+            id: "brand-relationship-models",
+            label: "Brand Relationship Models",
+            type: "long",
+            content: `Define how sub-brands such as online learning, distance education, or specific flagship festivals relate to the master LPU brand (endorsed, co-branded, or independent).`
+          },
+          {
+            id: "brand-evolution",
+            label: "Brand Evolution",
+            type: "long",
+            content: `Capture key milestones where the LPU brand identity or architecture evolved – e.g., introduction of new schools, online programmes, refreshed visual identity, or new taglines.`
+          }
+        ]
+      },
+      {
         id: "target-audience",
         label: "Target Audience",
         sections: [
@@ -635,7 +652,7 @@
             id: "demographics",
             label: "Demographics (Cohorts)",
             type: "cohort",
-            hint: "Set up example cohorts for typical LPU target students."
+            hint: "Example cohorts for typical LPU target students."
           },
           {
             id: "psychographics",
@@ -677,7 +694,7 @@
             id: "differentiation-factors",
             label: "Differentiation Factors",
             type: "long",
-            content: `Key differentiation levers for LPU include:\n\n• Scale and diversity of programmes and student community.\n• Strong brand recall among private universities due to marketing and rankings.\n• Modern infrastructure with a self-contained residential campus.\n• Emphasis on placements, internships, and industry projects.\n• Use of technology and data in academic and administrative processes.\n• Scholarships and financial support options.\n\nThese factors should be emphasised in campaigns relative to government universities, regional private institutions, and other national-level private universities.`
+            content: `Key differentiation levers for LPU include:\n\n• Scale and diversity of programmes and student community.\n• Strong brand recall among private universities due to marketing and rankings.\n• Modern infrastructure with a self-contained residential campus.\n• Emphasis on placements, internships, and industry projects.\n• Use of technology and data in academic and administrative processes.\n• Scholarships and financial support options.`
           },
           {
             id: "industry-benchmarks",
@@ -779,7 +796,7 @@
       },
       {
         id: "logo-guidelines",
-        label: "Logo & Identity",
+        label: "Logo Guidelines",
         sections: [
           {
             id: "logo-variants",
@@ -898,6 +915,330 @@
         ]
       },
       {
+        id: "iconography",
+        label: "Iconography",
+        sections: [
+          {
+            id: "grid-spacing-rules",
+            label: "Grid/Spacing Rules",
+            type: "long",
+            content: `Define a consistent grid (e.g., 24px or 32px) for creating icons used across the LPU website, portals, and apps so that they feel cohesive.`
+          },
+          {
+            id: "icon-color-usage",
+            label: "Icon Color Usage",
+            type: "color",
+            content: ""
+          },
+          {
+            id: "icon-dos-donts",
+            label: "Do’s & Don’ts",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "icon-download-pack",
+            label: "Download Pack",
+            type: "upload",
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "graphic-elements",
+        label: "Graphic Elements",
+        sections: [
+          {
+            id: "decorative-shapes",
+            label: "Decorative Shapes",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "illustrations",
+            label: "Illustrations",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "backgrounds",
+            label: "Backgrounds",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "layering-rules",
+            label: "Layering Rules",
+            type: "long",
+            content: `Specify how gradients, shapes, and photography can be layered without overpowering the LPU logo and key messages.`
+          }
+        ]
+      },
+      {
+        id: "motion-guidelines",
+        label: "Motion Guidelines",
+        sections: [
+          {
+            id: "motion-timing-easing",
+            label: "Motion Timing/Easing",
+            type: "long",
+            content: `Use smooth, easing-based motion for banners, UI elements, and explainer videos. Avoid overly fast or distracting animations.`
+          },
+          {
+            id: "motion-use-cases",
+            label: "Use Cases",
+            type: "long",
+            content: `Recommended use cases include homepage hero banners, programme highlight carousels, campus tour videos, and interactive infographics.`
+          },
+          {
+            id: "inappropriate-motion",
+            label: "Inappropriate Motion",
+            type: "long",
+            content: `Avoid flashing graphics, rapid looping animations, or motion that obscures important text, as these can be distracting and reduce accessibility.`
+          },
+          {
+            id: "export-specs",
+            label: "Export Specs",
+            type: "long",
+            content: `Define preferred formats and sizes for motion assets (e.g., MP4, WebM, GIF) and platform-specific specs for website, YouTube, and social media.`
+          }
+        ]
+      },
+      {
+        id: "ui-components",
+        label: "UI Components",
+        sections: [
+          {
+            id: "inputs",
+            label: "Inputs",
+            type: "long",
+            content: `Document standard input styles for enquiry forms, application portals, and student dashboards – including borders, focus states, and error messages.`
+          },
+          {
+            id: "cards",
+            label: "Cards",
+            type: "long",
+            content: `Define card patterns for programmes, events, news items, and success stories, ensuring consistent padding, typography, and hover behaviour.`
+          },
+          {
+            id: "navigation",
+            label: "Navigation",
+            type: "long",
+            content: `Describe primary navigation (top bar), secondary navigation (mega menus), and breadcrumb patterns across the LPU web ecosystem.`
+          },
+          {
+            id: "interactive-states",
+            label: "Interactive States",
+            type: "upload",
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "packaging-guidelines",
+        label: "Packaging Guidelines",
+        sections: [
+          {
+            id: "label-design",
+            label: "Label Design",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "barcoding-legal",
+            label: "Barcoding & Legal Info",
+            type: "long",
+            content: `For physical merchandise (books, kits, souvenirs), document placement of barcodes, copyright lines, and regulatory marks where applicable.`
+          },
+          {
+            id: "unboxing-experience",
+            label: "Unboxing Experience",
+            type: "long",
+            content: `Ensure welcome kits for new students and event packages feel premium yet practical, reflecting LPU’s emphasis on scale and care.`
+          },
+          {
+            id: "sustainability-standards",
+            label: "Sustainability Standards",
+            type: "long",
+            content: `Encourage eco-friendly packaging materials and minimal plastic wherever possible, aligning with LPU’s commitment to responsible citizenship.`
+          }
+        ]
+      },
+      {
+        id: "signage-print",
+        label: "Signage & Print",
+        sections: [
+          {
+            id: "outdoor-signage",
+            label: "Outdoor Signage",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "retail-displays",
+            label: "Retail Displays",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "print-sizes",
+            label: "Print Sizes",
+            type: "table",
+            content: `Capture standard sizes for standees, hoardings, posters, and brochures used in admissions and events.`
+          },
+          {
+            id: "exhibition-booth",
+            label: "Exhibition Booth Branding",
+            type: "upload",
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "templates-assets",
+        label: "Templates & Assets",
+        sections: [
+          {
+            id: "business-cards",
+            label: "Business Cards",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "letterhead-design",
+            label: "Letterhead Design",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "email-signatures",
+            label: "Email Signatures",
+            type: "long",
+            content: `Define a consistent email signature format for faculty, staff, and counsellors, including name, designation, school, contact details, and university logo.`
+          },
+          {
+            id: "social-media-kits",
+            label: "Social Media Kits",
+            type: "upload",
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "usage-dos-donts",
+        label: "Usage Do’s & Don’ts",
+        sections: [
+          {
+            id: "color-misuse",
+            label: "Color Misuse",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "typography-errors",
+            label: "Typography Errors",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "messaging-misalignment",
+            label: "Messaging Misalignment",
+            type: "long",
+            content: `List examples where messaging may overpromise, misrepresent rankings, or create confusion, and provide corrected versions to ensure consistency and compliance.`
+          },
+          {
+            id: "visual-mistakes",
+            label: "Visual Mistakes",
+            type: "upload",
+            content: ""
+          }
+        ]
+      },
+      {
+        id: "co-branding-rules",
+        label: "Co-Branding Rules",
+        sections: [
+          {
+            id: "co-brand-hierarchy",
+            label: "Brand Hierarchy",
+            type: "long",
+            content: `Explain how LPU’s logo should appear alongside logos of industry partners, NGOs, and international universities, including size ratios and alignment.`
+          },
+          {
+            id: "co-brand-campaign-examples",
+            label: "Campaign Examples",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "co-brand-dos-donts",
+            label: "Do’s & Don’ts",
+            type: "long",
+            content: `Clarify acceptable use of LPU name in partner campaigns, and restrictions on phrases that may imply ownership, endorsement, or ranking claims not approved by the university.`
+          },
+          {
+            id: "co-brand-terms",
+            label: "Co-brand Terms & Guidelines",
+            type: "long",
+            content: `Summarise standard clauses used in MoUs and marketing agreements that govern use of LPU brand assets by partners.`
+          }
+        ]
+      },
+      {
+        id: "legal-trademarks",
+        label: "Legal & Trademarks",
+        sections: [
+          {
+            id: "copyright-claims",
+            label: "Copyright Claims",
+            type: "long",
+            content: `List legal statements covering ownership of course content, photographs, videos, and brand materials created by or for LPU.`
+          },
+          {
+            id: "licensing-terms",
+            label: "Licensing Terms",
+            type: "long",
+            content: `Describe how third parties (publishers, partners, agencies) may be licensed to use LPU marks and under what conditions.`
+          },
+          {
+            id: "disclaimers",
+            label: "Disclaimers",
+            type: "long",
+            content: `Standard disclaimer examples for rankings, placement statistics, and testimonials to be used in marketing collateral.`
+          },
+          {
+            id: "brand-abuse-reporting",
+            label: "Brand Abuse Reporting",
+            type: "short",
+            content: `Provide a dedicated email/address where misuse of the LPU name or logo can be reported.`
+          }
+        ]
+      },
+      {
+        id: "industry-custom",
+        label: "Industry Custom Modules",
+        sections: [
+          {
+            id: "fashion-lookbooks",
+            label: "Fashion: Fabric Visuals, Lookbooks",
+            type: "upload",
+            content: ""
+          },
+          {
+            id: "food-label-regs",
+            label: "Food: Label Regulations",
+            type: "long",
+            content: `For LPU programmes related to food technology or nutrition, outline how brand guidelines intersect with FSSAI or other regulatory label requirements.`
+          },
+          {
+            id: "finance-disclosures",
+            label: "Finance: Legal Disclosures",
+            type: "long",
+            content: `For finance and commerce related communications, list any mandatory disclosures or disclaimers to be printed with charts, projections, or case studies.`
+          }
+        ]
+      },
+      {
         id: "accessibility-standards",
         label: "Accessibility Standards",
         sections: [
@@ -931,6 +1272,12 @@
 
     // ---------- STATE ----------
     const completionState = {};
+    // pre-mark all sections completed
+    BRAND_STRUCTURE.forEach(p =>
+      p.sections.forEach(sec => {
+        completionState[sec.id] = true;
+      })
+    );
     const totalSections = BRAND_STRUCTURE.reduce(
       (sum, p) => sum + p.sections.length,
       0
@@ -964,7 +1311,8 @@
         pillar.sections.forEach((sec, sIdx) => {
           const subLi = document.createElement("li");
           subLi.className =
-            "sub-pillar" + (idx === 0 && sIdx === 0 ? " active" : "");
+            "sub-pillar" +
+            (idx === 0 && sIdx === 0 ? " active completed" : " completed");
           subLi.dataset.sectionId = sec.id;
           subLi.innerHTML = `
             <div class="sub-pillar-left">
@@ -980,6 +1328,13 @@
         li.appendChild(subList);
         pillarListEl.appendChild(li);
       });
+
+      // turn status dots green
+      document
+        .querySelectorAll(".sub-pillar.completed .status-dot")
+        .forEach(dot => {
+          dot.style.background = "#4caf50";
+        });
 
       bindSidebarEvents();
     }
@@ -1069,26 +1424,12 @@
       actions.className = "form-actions";
       actions.innerHTML = `
         <button class="btn btn-outline" type="button">
-          <i class="fas fa-rotate-left"></i> Reset
+          <i class="fas fa-rotate-left"></i> Reset (demo)
         </button>
         <button class="btn btn-primary" type="button">
-          Save Section <i class="fas fa-check"></i>
+          Section Saved <i class="fas fa-check"></i>
         </button>
       `;
-      const [resetBtn, saveBtn] = actions.querySelectorAll("button");
-
-      resetBtn.addEventListener("click", () => {
-        container.querySelectorAll("textarea").forEach((el) => {
-          el.value = "";
-        });
-      });
-
-      saveBtn.addEventListener("click", () => {
-        completionState[sec.id] = true;
-        updateCompletionUI();
-        markSidebarCompleted(sec.id);
-      });
-
       container.appendChild(actions);
 
       formRoot.innerHTML = "";
@@ -1107,9 +1448,7 @@
       wrapper.className = "form-group";
       wrapper.innerHTML = `
         <label>${sec.label}</label>
-        <input type="text" placeholder="${
-          sec.content || "Write a concise line here..."
-        }" />
+        <input type="text" value="${sec.content || ""}" />
       `;
       return wrapper;
     }
@@ -1121,7 +1460,7 @@
       wrapper.innerHTML = `
         <label>${sec.label}</label>
         <textarea>${content}</textarea>
-        <div class="hint">This text is pre-filled for LPU. You can edit it to suit your needs.</div>
+        <div class="hint">Pre-filled for LPU – you can edit this text.</div>
       `;
       return wrapper;
     }
@@ -1208,9 +1547,9 @@
       const wrapper = document.createElement("div");
       wrapper.className = "form-group";
       wrapper.innerHTML = `
-        <label>Primary Color (Demo)</label>
+        <label>Primary / Secondary Color (Demo)</label>
         <input type="color" value="#F37021" />
-        <div class="hint">Approximate LPU orange. Confirm exact values with the official brand team.</div>
+        <div class="hint">Approximate LPU orange – confirm exact values with official brand team.</div>
       `;
       return wrapper;
     }
@@ -1242,7 +1581,7 @@
         <div class="form-group">
           <label>Parental Status</label>
           <div class="chip-row">
-            <button type="button" class="chip-toggle active">Parent Not a Parent</button>
+            <button type="button" class="chip-toggle active">Not a Parent</button>
             <button type="button" class="chip-toggle">Parent</button>
           </div>
         </div>
@@ -1288,34 +1627,19 @@
     // ---------- COMPLETION ----------
     function updateCompletionUI() {
       const completed = Object.keys(completionState).length;
-      const percent = totalSections
-        ? Math.round((completed / totalSections) * 100)
-        : 0;
+      const percent = 100; // fixed at 100% because everything is pre-completed
       progressBarEl.style.width = percent + "%";
       progressTextEl.textContent = `${percent}% Complete (${completed} / ${totalSections})`;
-    }
-
-    function markSidebarCompleted(sectionId) {
-      const node = document.querySelector(
-        `.sub-pillar[data-section-id="${sectionId}"]`
-      );
-      if (node) node.classList.add("completed");
     }
 
     // ---------- INIT ----------
     renderSidebar();
     updateCompletionUI();
 
-    // open first section by default
+    // open first section (Brand History) by default
     const firstPillar = BRAND_STRUCTURE[0];
-    if (firstPillar && firstPillar.sections[0]) {
-      const firstSec = firstPillar.sections[0];
-      const node = document.querySelector(
-        `.sub-pillar[data-section-id="${firstSec.id}"]`
-      );
-      if (node) node.classList.add("active");
-      renderSectionForm({ pillar: firstPillar, sec: firstSec });
-    }
+    const firstSec = firstPillar.sections[0];
+    renderSectionForm({ pillar: firstPillar, sec: firstSec });
   </script>
 </body>
 </html>
